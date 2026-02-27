@@ -8,9 +8,8 @@ export const pageview = (url: string) => {
     if (typeof window !== "undefined" && window.gtag) {
         window.gtag("config", GA_TRACKING_ID, {
             page_path: url,
-            debug_mode: true, // GA4 실시간 DebugView 확인을 위해 활성화
+            debug_mode: false,
         });
-        // console.info(`🚩 [GA4] Pageview sent to: ${url}`);
     }
 };
 
@@ -39,7 +38,7 @@ export const setUserId = (userId: string | null) => {
     if (typeof window !== "undefined" && window.gtag) {
         window.gtag("config", GA_TRACKING_ID, {
             user_id: userId,
-            debug_mode: true,
+            debug_mode: false,
         });
     }
 };
@@ -116,4 +115,27 @@ export const trackUserFeedback = (params: {
         category: "Feedback",
         ...rest
     });
+};
+
+export const trackFunnel = (stage: "01_visit_landing" | "02_click_start" | "03_upload_image" | "04_generate_request" | "05_generate_success" | "06_view_result" | "07_download_pdf" | "08_share", params?: any) => {
+    if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", `funnel_${stage}`, {
+            funnel_stage: stage, // [Important] Explicitly send stage as a parameter for GA4 Custom Dimension
+            ...params,
+        });
+    }
+};
+
+/**
+ * 이탈 지점 트래킹 함수
+ * event_name: 'exit_{step}'
+ */
+export const trackExit = (step: string, reason?: string, params?: Record<string, any>) => {
+    if (typeof window !== "undefined" && window.gtag) {
+        window.gtag("event", `exit_${step}`, {
+            exit_step: step,
+            exit_reason: reason,
+            ...params,
+        });
+    }
 };

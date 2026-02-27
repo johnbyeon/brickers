@@ -1,8 +1,8 @@
 package com.brickers.backend.config;
 
-import com.brickers.backend.auth.jwt.JwtAuthFilter;
-import com.brickers.backend.auth.oauth.OAuth2LoginSuccessHandler;
-import com.brickers.backend.security.CustomOAuth2UserService;
+import com.brickers.backend.auth.filter.JwtAuthFilter;
+import com.brickers.backend.auth.handler.OAuth2LoginSuccessHandler;
+import com.brickers.backend.auth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -85,9 +85,7 @@ public class SecurityConfig {
                                                 .permitAll()
                                                 // 토큰 상태 확인 (공개 - 토큰 없어도 확인 가능)
                                                 .requestMatchers(HttpMethod.GET, "/api/auth/status").permitAll()
-                                                // 모든 세션 로그아웃 (인증 필요)
-                                                .requestMatchers(HttpMethod.POST, "/api/auth/logout-all")
-                                                .authenticated()
+
                                                 // 로그인 이력 (인증 필요)
                                                 .requestMatchers(HttpMethod.GET, "/api/auth/logins").authenticated()
                                                 // ✅ [보안 강화] Actuator는 관리자만 접근 가능
@@ -120,6 +118,9 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/api/gallery/*/bookmark",
                                                                 "/api/gallery/*/reaction")
                                                 .authenticated()
+
+                                                // ✅ 내부 API (Screenshot/Background 서버 → Backend 알림, 토큰 검증은 컨트롤러에서 수행)
+                                                .requestMatchers(HttpMethod.PATCH, "/api/gallery/*/screenshots").permitAll()
 
                                                 // ✅ 게시글 생성/수정/삭제(인증 필요)
                                                 .requestMatchers(HttpMethod.POST, "/api/gallery").authenticated()

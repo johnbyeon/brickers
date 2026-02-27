@@ -43,6 +43,14 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
     useEffect(() => { authFetchRef.current = authFetch; }, [authFetch]);
     useEffect(() => { tRef.current = t; }, [t]);
 
+    const statusRef = useRef(status);
+    const jobIdRef = useRef(jobId);
+    const stageRef = useRef(currentStage);
+
+    useEffect(() => { statusRef.current = status; }, [status]);
+    useEffect(() => { jobIdRef.current = jobId; }, [jobId]);
+    useEffect(() => { stageRef.current = currentStage; }, [currentStage]);
+
     useEffect(() => {
         const promptText = (targetPrompt ?? "").trim();
         if (!rawFile && !promptText) return;
@@ -74,6 +82,9 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
                 budget: budget,
                 search_term: targetPrompt || undefined
             });
+
+            // [GA4] 03_upload_image 트래킹 (프롬프트/이미지 공통)
+            gtag.trackFunnel("03_upload_image", { label: targetPrompt ? 'prompt' : 'image' });
 
             try {
                 let sourceImageUrl = "";
@@ -108,6 +119,9 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
                     title: fileTitle,
                     language,
                 };
+
+                // [GA4] 04_generate_request 트래킹
+                gtag.trackFunnel("04_generate_request");
 
                 const startRes = await authFetchRef.current('/api/kids/generate', {
                     method: "POST",
@@ -211,6 +225,9 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
                             stability_score: statusData.stabilityScore // [New] Stability Score
                         });
 
+                        // [GA4] 05_generate_success 트래킹
+                        gtag.trackFunnel("05_generate_success", { job_id: jid, age: age });
+
                         // [NEW] Track Search Term Fallback (If no user prompt, use identified tags/subject)
                         if (!targetPrompt) {
                             const fallbackTerm = statusData.title || (statusData.suggestedTags && statusData.suggestedTags[0]) || "Untitled";
@@ -259,6 +276,15 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
         return () => {
             alive = false;
             try { abort.abort(); } catch { }
+
+            // [GA4] 이탈 지점 트래킹: 생성 도중 페이지 이탈(언마운트)
+            if (statusRef.current === 'loading') {
+                gtag.trackExit('generation_flow', 'user_left_while_loading', {
+                    job_id: jobIdRef.current || 'pending',
+                    stage: stageRef.current
+                });
+            }
+
             const currentJob = useJobStore.getState().activeJob;
             if (currentJob && currentJob.status !== 'DONE' && currentJob.status !== 'FAILED') {
                 useJobStore.getState().startPolling(currentJob.jobId, currentJob.age);
