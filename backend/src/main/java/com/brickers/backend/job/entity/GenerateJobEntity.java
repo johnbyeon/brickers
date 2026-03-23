@@ -61,7 +61,7 @@ public class GenerateJobEntity {
     private String title;
 
     /** 이미지 분류 전체 카테고리 (Animal, Character, 등) */
-    private String imageCategory; // [New]
+    private String imageCategory; // 신규
 
     /** 언어 설정 (ko, en, ja) */
     private String language;
@@ -84,7 +84,7 @@ public class GenerateJobEntity {
     private String ldrUrl;
 
     /** 초기 생성된 LDR 파일 URL (에이전트 수정 전) */
-    private String initialLdrUrl; // [New]
+    private String initialLdrUrl; // 신규
 
     /** 모델 산출물 key (예: model.glb / model.ldr) - 레거시 호환용 */
     @Deprecated
@@ -104,7 +104,7 @@ public class GenerateJobEntity {
     private String bomUrl;
 
     /** PDF URL (S3) */
-    private String pdfUrl; // [New]
+    private String pdfUrl; // 신규
 
     /** 배경 이미지 URL (Nano Banana 생성) */
     private String backgroundUrl;
@@ -119,19 +119,19 @@ public class GenerateJobEntity {
     private Integer finalTarget;
 
     /** LMM (AI 모델) 순수 생성 시간 (ms) */
-    private Integer lmmLatency; // [New]
+    private Integer lmmLatency; // 신규
 
     /** 실패 시 에러 메시지 */
     private String errorMessage;
 
     /** 예상 비용 (USD) - 토큰 비용 + Tripo($0.3) */
-    private Double estCost; // [New]
+    private Double estCost; // 신규
 
     /** 사용된 총 토큰 수 */
-    private Integer tokenCount; // [New]
+    private Integer tokenCount; // 신규
 
     /** 구조적 안정성 점수 (0~100) - AI가 계산 */
-    private Integer stabilityScore; // [New]
+    private Integer stabilityScore; // 신규
 
     /** 소프트 삭제 여부 (신고 조치 등) */
     @Builder.Default

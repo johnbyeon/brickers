@@ -49,9 +49,9 @@ function revokeAll(arr: string[]) {
 }
 
 /**
- * Color variant state and logic extracted from kids/steps/page.tsx.
- * Manages color theme selection, applying color variants, restoring originals,
- * and downloading color-changed LDR files.
+ * kids/steps/page.tsx에서 분리한 색상 변형 상태 및 로직입니다.
+ * 색상 테마 선택, 색상 변형 적용, 원본 복원,
+ * 색상 변경된 LDR 파일 다운로드를 관리합니다.
  */
 export default function useColorVariant({
     ldrUrl,
@@ -81,7 +81,7 @@ export default function useColorVariant({
         }
     };
 
-    // Load themes when modal opens
+    // 모달이 열리면 테마 로드
     useEffect(() => {
         if (isColorModalOpen && colorThemes.length === 0) {
             getColorThemes().then(setColorThemes).catch(e => console.error(e));
@@ -96,13 +96,13 @@ export default function useColorVariant({
             if (result.ok && result.ldrData) {
                 setColorChangedLdrBase64(result.ldrData);
                 const text = atob(result.ldrData);
-                // Generate preview URL immediately
+                // 미리보기 URL을 즉시 생성
                 const previewBlob = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
                 setColorPreviewUrl(prev => {
                     if (prev) URL.revokeObjectURL(prev);
                     return previewBlob;
                 });
-                // Regenerate step blobs (using Worker)
+                // 스텝 Blob을 다시 생성(Worker 사용)
                 const worker = new Worker(new URL('@/lib/ldrWorker.ts', import.meta.url));
                 worker.postMessage({ type: 'PROCESS_LDR', text });
                 worker.onmessage = (e) => {
@@ -146,7 +146,7 @@ export default function useColorVariant({
         try {
             const res = await fetch(originalLdrUrl);
             const text = await res.text();
-            // Apply sorting and bounds calculation (using Worker)
+            // 정렬 및 경계 계산 적용(Worker 사용)
             const worker = new Worker(new URL('@/lib/ldrWorker.ts', import.meta.url));
             worker.postMessage({ type: 'PROCESS_LDR', text });
             worker.onmessage = (e) => {

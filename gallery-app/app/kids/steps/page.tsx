@@ -17,13 +17,13 @@ import ShareModal from "@/components/kids/ShareModal";
 import GlbModel from "@/components/three/GlbModel";
 import { patchThreeNullChildren } from "@/lib/three/threeUtils";
 
-// Hooks
+// 훅
 import useJobData from "@/hooks/useJobData";
 import useLdrSteps from "@/hooks/useLdrSteps";
 import useColorVariant from "@/hooks/useColorVariant";
 import useStepNavigation from "@/hooks/useStepNavigation";
 
-// Components
+// 컴포넌트
 import OffscreenRenderer, { type ViewName } from "./components/OffscreenRenderer";
 import StepSidebar from "./components/StepSidebar";
 import ScreenshotGalleryView from "./components/ScreenshotGalleryView";
@@ -46,7 +46,7 @@ function KidsStepPageContent() {
     const perfProfile = usePerformanceStore((s) => s.profile);
     const setLoadingPhase = usePerformanceStore((s) => s.setLoadingPhase);
 
-    // Local state
+    // 로컬 상태
     const [activeTab, setActiveTab] = useState<'LDR' | 'GLB'>('LDR');
     const [isAssemblyMode, setIsAssemblyMode] = useState(false);
     const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
@@ -111,7 +111,7 @@ function KidsStepPageContent() {
         containerRef,
     });
 
-    // Auto-switch to assembly mode when no screenshots
+    // 스크린샷이 없으면 조립 모드로 자동 전환
     useEffect(() => {
         if (isAssemblyMode) return;
         if (!jobId) { setIsAssemblyMode(true); return; }
@@ -120,7 +120,7 @@ function KidsStepPageContent() {
         }
     }, [jobId, jobData.jobLoaded, jobData.jobScreenshotUrls, isAssemblyMode]);
 
-    // === Handlers ===
+    // === 핸들러 ===
     const handleDownloadPdf = () => {
         if (jobData.serverPdfUrl) {
             window.open(jobData.serverPdfUrl, "_blank");
@@ -189,7 +189,7 @@ function KidsStepPageContent() {
         link.click();
     };
 
-    // === Render ===
+    // === 렌더링 ===
     return (
         <div ref={containerRef} style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}>
             <OffscreenRenderer />

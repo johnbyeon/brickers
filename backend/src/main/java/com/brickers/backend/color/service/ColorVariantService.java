@@ -46,7 +46,7 @@ public class ColorVariantService {
             log.error("[ColorVariant] Failed to get themes: {}", e.getMessage());
         }
 
-        // 폴백: 하드코딩된 테마 목록
+        // 예비 처리: 하드코딩된 테마 목록 반환
         return List.of(
                 createTheme("sunset", "노을 테마 - 따뜻한 오렌지, 빨강, 노랑 계열"),
                 createTheme("ocean", "바다 테마 - 시원한 파랑, 청록 계열"),

@@ -16,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 /**
- * ⚙️ MyJobService
- * 
- * 사용자의 이미지 생성 작업(GenerateJob) 관리 비즈니스 로직을 담당합니다.
+ * 사용자의 이미지 생성 작업 관리 비즈니스 로직을 담당합니다.
  */
 @Slf4j
 @Service
@@ -85,8 +83,8 @@ public class MyJobService {
             throw new IllegalStateException("취소할 수 없는 상태입니다 (상태: " + job.getStatus() + ")");
         }
 
-        job.markCanceled("User requested cancellation");
-        log.info("[MyJobService] Job CANCELED | jobId={} | userId={}", jobId, userId);
+        job.markCanceled("사용자 취소 요청");
+        log.info("[MyJobService] 작업 취소 | jobId={} | userId={}", jobId, userId);
 
         return userMapper.toJobResponse(generateJobRepository.save(job));
     }

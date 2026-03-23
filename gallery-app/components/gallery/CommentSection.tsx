@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export type Comment = {
     id: string;
-    authorId: string; // Added authorId
+    authorId: string; // authorId 추가
     authorNickname: string;
     authorProfileImage?: string;
     content: string;
@@ -21,8 +21,8 @@ type CommentTranslations = {
         placeholderComment: string;
         loginToComment: string;
         post: string;
-        delete?: string; // Optional
-        deleteConfirm?: string; // Optional
+        delete?: string; // 선택 사항
+        deleteConfirm?: string; // 선택 사항
     };
 };
 
@@ -38,10 +38,10 @@ type CommentSectionProps = {
     commentInput: string;
     commentLoading: boolean;
     isAuthenticated: boolean;
-    currentUser: User | null; // Added currentUser
+    currentUser: User | null; // currentUser 추가
     onCommentInputChange: (value: string) => void;
     onCommentSubmit: (parentId?: string, replyContent?: string) => void;
-    onCommentDelete: (commentId: string) => void; // Added onCommentDelete
+    onCommentDelete: (commentId: string) => void; // onCommentDelete 추가
     t: CommentTranslations;
 };
 
@@ -51,7 +51,7 @@ function formatDate(dateStr: string) {
 }
 
 /**
- * CommentList - the scrollable comments area (placed inside overflow-y-auto parent)
+ * CommentList - 스크롤 가능한 댓글 영역(overflow-y-auto 부모 내부에 배치)
  */
 export function CommentList({
     comments,
@@ -62,12 +62,12 @@ export function CommentList({
     onCommentDelete,
     t,
 }: Pick<CommentSectionProps, 'comments' | 'commentCount' | 'isAuthenticated' | 'currentUser' | 'onCommentSubmit' | 'onCommentDelete' | 't'>) {
-    // Reply State (local to this component)
+    // 답글 상태(이 컴포넌트 내부 전용)
     const [replyingTo, setReplyingTo] = useState<string | null>(null);
     const [replyInput, setReplyInput] = useState('');
     const [replyLoading, setReplyLoading] = useState(false);
 
-    // Track which comments' replies are expanded
+    // 어떤 댓글의 답글이 펼쳐져 있는지 추적
     const [expandedComments, setExpandedComments] = useState<Set<string>>(new Set());
 
     const toggleExpand = (commentId: string) => {
@@ -83,11 +83,11 @@ export function CommentList({
         if (!replyInput.trim()) return;
         setReplyLoading(true);
         onCommentSubmit(parentId, replyInput);
-        // Reset reply state after submit
+        // 제출 후 답글 상태 초기화
         setReplyInput('');
         setReplyingTo(null);
         setReplyLoading(false);
-        // Auto-expand the parent to show the new reply
+        // 새 답글이 보이도록 부모 댓글을 자동으로 펼침
         if (!expandedComments.has(parentId)) toggleExpand(parentId);
     };
 
@@ -101,14 +101,14 @@ export function CommentList({
         const isExpanded = expandedComments.has(c.id);
         const hasChildren = c.children && c.children.length > 0;
 
-        // Permission check: Owner or Admin
+        // 권한 확인: 작성자 또는 관리자
         const canDelete = currentUser && (currentUser.id === c.authorId || currentUser.role === 'ADMIN');
 
         return (
             <div key={c.id} className="w-full">
-                {/* Instagram Style Row */}
+                {/* 인스타그램 스타일 행 */}
                 <div className={`flex gap-3 py-2 ${depth > 0 ? 'ml-2' : ''}`}>
-                    {/* Avatar */}
+                    {/* 아바타 */}
                     {c.authorProfileImage ? (
                         <img src={c.authorProfileImage} alt={c.authorNickname || ''} className="w-8 h-8 rounded-full object-cover shrink-0 border border-gray-200 shadow-sm" />
                     ) : (
@@ -117,7 +117,7 @@ export function CommentList({
                         </div>
                     )}
 
-                    {/* Content Section */}
+                    {/* 내용 영역 */}
                     <div className="flex flex-col flex-1 min-w-0">
                         <div className="text-[13px] leading-relaxed">
                             <span className="font-bold mr-2 text-gray-900 leading-none">@{c.authorNickname}</span>
@@ -147,7 +147,7 @@ export function CommentList({
                             )}
                         </div>
 
-                        {/* Reply Input */}
+                        {/* 답글 입력 */}
                         {replyingTo === c.id && (
                             <div className="mt-3 flex gap-2">
                                 <input
@@ -171,7 +171,7 @@ export function CommentList({
                     </div>
                 </div>
 
-                {/* Sub-replies */}
+                {/* 하위 답글 */}
                 {hasChildren && (
                     <div className="ml-8 flex flex-col">
                         <button
@@ -213,7 +213,7 @@ export function CommentList({
 }
 
 /**
- * CommentInput - the fixed comment input bar (placed outside the scrollable area)
+ * CommentInput - 고정 댓글 입력 바(스크롤 영역 바깥에 배치)
  */
 export function CommentInput({
     commentInput,

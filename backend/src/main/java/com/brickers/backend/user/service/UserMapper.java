@@ -8,7 +8,7 @@ import com.brickers.backend.user.entity.User;
 import org.springframework.stereotype.Component;
 
 /**
- * 🎨 UserMapper
+ * 🎨 사용자 매퍼
  * 
  * 사용자 프로필, 생성 작업(Job), 활동 내역 등 마이페이지 관련 DTO 변환을 담당합니다.
  */

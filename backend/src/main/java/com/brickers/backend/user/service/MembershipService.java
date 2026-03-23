@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 /**
- * 🎖️ MembershipService
+ * 🎖️ 멤버십 서비스
  * 
  * 사용자의 멤버십 플랜(BASIC, PRO 등) 변경 및 관리를 전담합니다.
  */
@@ -30,7 +30,7 @@ public class MembershipService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. userId=" + userId));
 
-        // planCode에 따라 멤버십 플랜 결정 (PRO 키워드 포함 시 PRO)
+        // planCode에 따라 멤버십 플랜 결정(PRO 키워드가 포함되면 PRO)
         if (planCode != null && planCode.toUpperCase().contains("PRO")) {
             user.setMembershipPlan(MembershipPlan.PRO);
         } else {

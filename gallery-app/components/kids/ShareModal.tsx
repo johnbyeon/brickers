@@ -32,7 +32,7 @@ export default function ShareModal({ isOpen, onClose, backgroundUrl, ldrUrl, loa
         canvas.height = 1000;
 
         if (backgroundUrl) {
-            // Use image proxy to bypass S3 CORS restrictions
+            // S3 CORS 제한을 우회하기 위해 이미지 프록시 사용
             const proxyUrl = `/proxy/image?url=${encodeURIComponent(backgroundUrl)}`;
             const res = await fetch(proxyUrl);
             const blob = await res.blob();
@@ -68,12 +68,12 @@ export default function ShareModal({ isOpen, onClose, backgroundUrl, ldrUrl, loa
         });
     };
 
-    // Reset state when modal closes
+    // 모달이 닫히면 상태 초기화
     useEffect(() => {
         if (!isOpen) setPreviewLoaded(false);
     }, [isOpen]);
 
-    // Early return AFTER all hooks — React requires hooks to run on every render
+    // 모든 훅 실행 이후에만 조기 반환해야 함. React는 매 렌더마다 훅이 실행되어야 함
     if (!isOpen) return null;
 
     const handleDownload = async () => {
@@ -158,7 +158,7 @@ export default function ShareModal({ isOpen, onClose, backgroundUrl, ldrUrl, loa
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fadeIn">
             <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden relative border-4 border-black/10">
-                {/* Close Button */}
+                {/* 닫기 버튼 */}
                 {!loading && (
                     <button
                         onClick={onClose}

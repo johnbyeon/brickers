@@ -1,4 +1,4 @@
-/* Tooltip Styles (Unified Speech Bubble) — requires ::before/::after pseudo-elements */
+/* 툴팁 스타일(통합 말풍선) - ::before/::after 가상 요소 필요 */
 .header__btn::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -47,7 +47,7 @@
     transform: translateX(-50%) translateY(0);
 }
 
-/* Notification dropdown slide-up animation */
+/* 알림 드롭다운 슬라이드업 애니메이션 */
 .notification-dropdown {
     animation: slideUp 0.2s ease-out;
 }
@@ -64,7 +64,7 @@
     }
 }
 
-/* Toast appear animation */
+/* 토스트 등장 애니메이션 */
 .toast {
     animation: toastAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

@@ -53,16 +53,16 @@ export default function useJobActions({
     const [isApplyingColor, setIsApplyingColor] = useState(false);
     const [colorChangedLdrBase64, setColorChangedLdrBase64] = useState<string | null>(null);
 
-    // --- Effects ---
+    // --- 이펙트 ---
 
-    // Reset jobViewStep when selectedJob changes
+    // selectedJob이 바뀌면 jobViewStep 초기화
     useEffect(() => {
         if (selectedJob) {
             setJobViewStep("preview");
         }
     }, [selectedJob]);
 
-    // --- Helper ---
+    // --- 헬퍼 ---
 
     // 파일 다운로드 헬퍼 (CORS 우회를 위해 a 태그 직접 사용)
     const downloadFile = (url: string, filename: string) => {
@@ -76,7 +76,7 @@ export default function useJobActions({
         document.body.removeChild(link);
     };
 
-    // --- Handlers ---
+    // --- 핸들러 ---
 
     const handleRetry = async (jobId: string) => {
         try {

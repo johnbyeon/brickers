@@ -23,13 +23,13 @@ export default function ScreenshotGallery({ item }: ScreenshotGalleryProps) {
 
     return (
         <div className="absolute inset-0 flex flex-col">
-            {/* Main content area */}
+            {/* 메인 콘텐츠 영역 */}
             <div className="flex-1 relative bg-white">
                 {is3DMode && item.ldrUrl ? (
-                    /* 3D Viewer - same space as screenshots */
+                    /* 3D 뷰어 - 스크린샷과 같은 영역 사용 */
                     <Viewer3D url={item.ldrUrl} />
                 ) : (
-                    /* Screenshot image */
+                    /* 스크린샷 이미지 */
                     item.screenshotUrls?.[selectedView] ? (
                         <Image
                             src={item.screenshotUrls[selectedView]!}
@@ -45,9 +45,9 @@ export default function ScreenshotGallery({ item }: ScreenshotGalleryProps) {
                 )}
             </div>
 
-            {/* Bottom bar */}
+            {/* 하단 바 */}
             <div className="bg-white border-t border-gray-200 px-4 py-3">
-                {/* Thumbnails - only show in image mode */}
+                {/* 썸네일 - 이미지 모드에서만 표시 */}
                 {!is3DMode && (
                     <div className="flex gap-2 justify-center mb-3">
                         {VIEW_ORDER.map(view => (
@@ -73,7 +73,7 @@ export default function ScreenshotGallery({ item }: ScreenshotGalleryProps) {
                     </div>
                 )}
 
-                {/* Toggle button */}
+                {/* 전환 버튼 */}
                 {item.ldrUrl && (
                     <button
                         onClick={() => setIs3DMode(!is3DMode)}

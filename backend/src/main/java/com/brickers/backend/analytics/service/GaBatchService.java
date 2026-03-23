@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 📦 GaBatchService
- * 
- * 대시보드 로딩 최적화를 위한 배치 요청 및 데이터 패키징을 담당합니다.
+ * 대시보드 로딩 최적화를 위한 배치 요청과 데이터 패키징을 담당합니다.
  */
 @Slf4j
 @Service
@@ -100,7 +98,7 @@ public class GaBatchService extends GaBaseService {
                 result.put("topTags", topTags);
             }
         } catch (Exception e) {
-            log.error("Batch fetch failed: {}", e.getMessage());
+            log.error("배치 조회 실패: {}", e.getMessage());
         }
         return result;
     }

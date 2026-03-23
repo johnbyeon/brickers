@@ -7,10 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * 🗺️ ReportMapper
- * 
- * Report 엔티티를 ReportResponse DTO로 변환하는 로직을 전담합니다.
- * 신고자의 이메일 정보 조회를 포함합니다.
+ * Report 엔티티를 ReportResponse DTO로 변환하는 로직을 담당합니다.
+ * 신고자의 이메일 정보 조회도 함께 처리합니다.
  */
 @Component
 @RequiredArgsConstructor

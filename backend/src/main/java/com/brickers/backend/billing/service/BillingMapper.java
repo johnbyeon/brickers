@@ -7,7 +7,7 @@ import com.brickers.backend.payment.entity.PaymentPlan;
 import org.springframework.stereotype.Component;
 
 /**
- * 🗺️ BillingMapper
+ * 🗺️ 빌링 매퍼
  * 
  * 엔티티와 DTO 간의 데이터 변환 및
  * Google Product ID와 내부 플랜 코드 간의 매핑을 전담합니다.
@@ -33,12 +33,12 @@ public class BillingMapper {
         return switch (planCode) {
             case "PRO_MONTHLY" -> "brickers_pro_monthly";
             case "PRO_YEARLY" -> "brickers_pro_yearly";
-            default -> null; // 신규 요금제는 Google Play에 등록되지 않았을 수 있음
+            default -> null; // 신규 요금제는 Google Play에 아직 등록되지 않았을 수 있음
         };
     }
 
     /**
-     * 입금 플랜 엔티티 -> 플랜 조회 응답 DTO
+     * 결제 플랜 엔티티 -> 플랜 조회 응답 DTO
      */
     public BillingPlanResponse toPlanResponse(PaymentPlan plan) {
         return BillingPlanResponse.from(plan);

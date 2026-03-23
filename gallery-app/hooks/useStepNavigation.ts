@@ -13,8 +13,8 @@ interface UseStepNavigationParams {
 }
 
 /**
- * Keyboard arrow key handler and Shift+wheel handler for step navigation.
- * Extracted from kids/steps/page.tsx.
+ * 스텝 이동을 위한 키보드 방향키와 Shift+휠 입력을 처리합니다.
+ * kids/steps/page.tsx에서 분리한 훅입니다.
  */
 export default function useStepNavigation({
     isAssemblyMode,
@@ -25,7 +25,7 @@ export default function useStepNavigation({
     setStepIdx,
     containerRef,
 }: UseStepNavigationParams) {
-    // Keyboard arrow key navigation
+    // 키보드 방향키로 스텝 이동
     useEffect(() => {
         const handleKey = (e: KeyboardEvent) => {
             if (!isAssemblyMode || activeTab !== 'LDR') return;
@@ -36,12 +36,12 @@ export default function useStepNavigation({
         return () => window.removeEventListener('keydown', handleKey);
     });
 
-    // Shift+wheel = step navigation, normal wheel = 3D zoom (OrbitControls)
+    // Shift+휠은 스텝 이동, 일반 휠은 3D 줌(OrbitControls)
     useEffect(() => {
         const el = containerRef.current;
         if (!el || !isAssemblyMode || activeTab !== 'LDR') return;
         const handleWheel = (e: WheelEvent) => {
-            if (!e.shiftKey) return; // Shift key not pressed => let zoom handle it
+            if (!e.shiftKey) return; // Shift 키가 아니면 줌 동작에 맡김
             e.preventDefault();
             if (e.deltaY > 0) { if (canNext) { setLoading(true); setStepIdx(v => v + 1); } }
             else { if (canPrev) { setLoading(true); setStepIdx(v => v - 1); } }

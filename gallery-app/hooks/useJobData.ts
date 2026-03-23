@@ -26,8 +26,8 @@ interface UseJobDataReturn {
 }
 
 /**
- * Job data fetching hook extracted from kids/steps/page.tsx.
- * Fetches job metadata and populates all job-related state.
+ * kids/steps/page.tsx에서 분리한 작업 데이터 조회 훅입니다.
+ * 작업 메타데이터를 조회하고 작업 관련 상태를 채웁니다.
  */
 export default function useJobData({
     jobId,
@@ -47,7 +47,7 @@ export default function useJobData({
     const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
     const [jobLoaded, setJobLoaded] = useState(false);
 
-    // Job data fetch
+    // 작업 데이터 조회
     useEffect(() => {
         let alive = true;
         (async () => {

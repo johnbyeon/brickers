@@ -63,7 +63,7 @@ public class MongoIndexInitializer {
         ops.ensureIndex(new Index()
                 .on("email", Sort.Direction.ASC));
 
-        // Normalize legacy nickname data before unique index creation.
+        // 고유 인덱스 생성 전에 레거시 닉네임 데이터를 정규화
         migrateNicknamesForUniqueConstraint();
         rebuildNicknameUniqueIndex(ops);
 
@@ -131,7 +131,7 @@ public class MongoIndexInitializer {
     }
 
     private void rebuildNicknameUniqueIndex(IndexOperations ops) {
-        // Drop legacy non-unique nickname indexes to avoid option conflicts.
+        // 옵션 충돌을 피하기 위해 레거시 비고유 닉네임 인덱스를 제거
         for (IndexInfo info : ops.getIndexInfo()) {
             boolean isNicknameIndex = info.getIndexFields().size() == 1
                     && "nickname".equals(info.getIndexFields().get(0).getKey());

@@ -2,21 +2,21 @@ import * as THREE from "three";
 import { CDN_BASE } from "@/lib/ldrawUrlModifier";
 
 /**
- * Preload LDraw parts bundle into THREE.Cache.
+ * LDraw 파트 번들을 THREE.Cache에 미리 적재합니다.
  *
- * Derives the bundle URL from the LDR URL by replacing the filename
- * with `parts-bundle.json` (same S3 directory).
+ * LDR URL에서 파일명을 `parts-bundle.json`으로 바꿔
+ * 번들 URL을 계산합니다(같은 S3 디렉터리).
  *
- * If the bundle exists, all part contents are injected into THREE.Cache
- * under both CDN and proxy URL keys, so LDrawLoader gets cache hits
- * instead of making individual HTTP requests.
+ * 번들이 존재하면 모든 파트 내용을 CDN URL 키와 프록시 URL 키 양쪽으로
+ * THREE.Cache에 주입합니다.
+ * 이렇게 하면 LDrawLoader가 개별 HTTP 요청 대신 캐시를 사용합니다.
  *
- * @returns true if bundle was loaded, false if not found (404 → CDN fallback)
+ * @returns 번들 로드에 성공하면 true, 없으면 false(404 시 CDN으로 대체)
  */
 export async function preloadPartsBundle(ldrUrl: string): Promise<boolean> {
     if (!ldrUrl) return false;
 
-    // Skip non-S3 URLs (blob URLs, proxy URLs, etc.)
+    // S3가 아닌 URL(blob URL, 프록시 URL 등)은 건너뜀
     if (ldrUrl.startsWith("blob:") || ldrUrl.startsWith("/") || !ldrUrl.includes("amazonaws.com")) {
         return false;
     }
@@ -25,7 +25,7 @@ export async function preloadPartsBundle(ldrUrl: string): Promise<boolean> {
 
     try {
         const res = await fetch(bundleUrl);
-        if (!res.ok) return false; // 404 → existing models without bundle
+        if (!res.ok) return false; // 404면 번들이 없는 기존 모델로 간주
 
         const bundle: {
             version: number;
@@ -35,7 +35,7 @@ export async function preloadPartsBundle(ldrUrl: string): Promise<boolean> {
 
         THREE.Cache.enabled = true;
 
-        // Inject each part into cache under both CDN URL and proxy URL keys
+        // 각 파트를 CDN URL 키와 프록시 URL 키 양쪽으로 캐시에 주입
         for (const [relPath, content] of Object.entries(bundle.parts)) {
             const cdnUrl = CDN_BASE + relPath;
             const proxyUrl = `/api/proxy/ldr?url=${encodeURIComponent(cdnUrl)}`;
@@ -43,7 +43,7 @@ export async function preloadPartsBundle(ldrUrl: string): Promise<boolean> {
             THREE.Cache.add(proxyUrl, content);
         }
 
-        // Inject LDConfig.ldr
+        // LDConfig.ldr 주입
         if (bundle.ldconfig) {
             const ldconfigCdn = CDN_BASE + "LDConfig.ldr";
             const ldconfigProxy = `/api/proxy/ldr?url=${encodeURIComponent(ldconfigCdn)}`;

@@ -33,7 +33,7 @@ public class Subscription {
     // 구독 상태
     private SubscriptionStatus status;
 
-    // Google Pay 관련
+    // Google Pay 관련 정보
     private String purchaseToken;      // Google Play 구매 토큰
     private String orderId;            // Google Play 주문 ID
     private String productId;          // Google Play 상품 ID

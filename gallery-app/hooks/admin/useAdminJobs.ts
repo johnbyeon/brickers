@@ -16,7 +16,7 @@ export function useAdminJobs() {
     const [filterStatus, setFilterStatus] = useState("");
     const [reportedOnly, setReportedOnly] = useState(false);
 
-    // Debounce logic
+    // 디바운스 로직
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedUserSearch(userSearch);
@@ -50,7 +50,7 @@ export function useAdminJobs() {
     }, [fetchJobs]);
 
     const handleJobAction = async (jobId: string, action: 'retry' | 'cancel') => {
-        if (!confirm(`Are you sure you want to ${action} this job?`)) return;
+        if (!confirm(`이 작업을 정말 ${action === 'retry' ? '재시도' : '취소'}하시겠습니까?`)) return;
         try {
             const res = await authFetch(`/api/admin/jobs/${jobId}/${action}`, { method: "POST" });
             if (res.ok) {

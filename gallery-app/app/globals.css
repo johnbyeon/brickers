@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ✅ 한국어 폰트: KblJumpCondensed (Main titles) */
+/* ✅ 한국어 폰트: KblJumpCondensed (메인 타이틀용) */
 @font-face {
     font-family: 'KblJumpCondensed';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_EB_CondensedTTF.woff2') format('woff2');
@@ -62,7 +62,7 @@ body.lang-ja *,
     font-family: "Bebas Neue", sans-serif !important;
 }
 
-/* Background Bricks Animation */
+/* 배경 브릭 애니메이션 */
 @keyframes floatBrick {
 
     0%,
@@ -83,7 +83,7 @@ body.lang-ja *,
     }
 }
 
-/* Gallery Panel */
+/* 갤러리 패널 */
 .gallery-panel {
     background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
     border: 3px solid #000000;
@@ -91,7 +91,7 @@ body.lang-ja *,
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
-/* Card hover effects */
+/* 카드 호버 효과 */
 .gallery-card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -101,7 +101,7 @@ body.lang-ja *,
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
-/* Custom Scrollbar */
+/* 커스텀 스크롤바 */
 .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
 }

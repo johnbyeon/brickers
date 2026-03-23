@@ -1,6 +1,6 @@
 export interface StepImageItem {
     stepIndex: number;
-    images: string[]; // Base64
+    images: string[]; // Base64 데이터
 }
 
 export interface PdfWithBomRequest {
@@ -28,13 +28,13 @@ export async function generatePdfFromServer(
     stepImages: string[][]
 ): Promise<string> {
 
-    // Request Body 구성
+    // 요청 본문 구성
     const steps: StepImageItem[] = stepImages.map((imgs, idx) => ({
         stepIndex: idx + 1,
         images: imgs
     }));
 
-    // 커버 이미지는 마지막 스텝의 첫 번째 뷰 사용 (또는 별도 캡처)
+    // 커버 이미지는 마지막 스텝의 첫 번째 뷰 사용(또는 별도 캡처)
     const coverImage = stepImages.length > 0 && stepImages[stepImages.length - 1].length > 0
         ? stepImages[stepImages.length - 1][0]
         : undefined;

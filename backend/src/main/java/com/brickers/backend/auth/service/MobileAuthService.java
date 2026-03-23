@@ -125,7 +125,7 @@ public class MobileAuthService {
             return base;
         }
 
-        // Keep nickname <= 20 chars while appending numeric suffix.
+        // 숫자 접미사를 붙이더라도 닉네임 길이가 20자를 넘지 않도록 유지
         for (int i = 1; i <= 9999; i++) {
             String suffix = "_" + i;
             int baseLen = Math.max(1, 20 - suffix.length());

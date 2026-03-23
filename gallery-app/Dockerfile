@@ -1,20 +1,20 @@
 FROM node:20-alpine AS base
 
-# Install dependencies only when needed
+# 필요할 때만 의존성 설치
 FROM base AS deps
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
+# 선호 패키지 매니저 기준으로 의존성 설치
 COPY package.json package-lock.json* ./
 RUN npm ci --legacy-peer-deps
 
-# Rebuild the source code only when needed
+# 필요할 때만 소스 코드 재빌드
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Next.js collects completely anonymous telemetry data about general usage.
+# Next.js는 일반 사용에 대한 완전 익명 텔레메트리 데이터를 수집합니다.
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Docker 환경에서 backend 컨테이너로 프록시
@@ -22,7 +22,7 @@ ENV API_BASE=http://backend:8080
 
 RUN npm run build
 
-# Production image, copy all the files and run next
+# 프로덕션 이미지: 모든 파일을 복사하고 Next를 실행
 FROM base AS runner
 WORKDIR /app
 
@@ -34,11 +34,11 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 
-# Set the correct permission for prerender cache
+# 프리렌더 캐시에 올바른 권한 설정
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
-# Automatically leverage output traces to reduce image size
+# output trace를 활용해 이미지 크기 축소
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 

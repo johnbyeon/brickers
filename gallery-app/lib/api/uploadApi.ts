@@ -1,4 +1,4 @@
-// Upload API - S3 업로드 관련 함수 및 타입
+// 업로드 API - S3 업로드 관련 함수 및 타입
 import { request, API_BASE } from './apiClient';
 
 // S3 presign 응답 타입

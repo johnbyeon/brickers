@@ -9,7 +9,7 @@ type Props = {
     url: string;
 };
 
-// Main Viewer Component
+// 메인 뷰어 컴포넌트
 export default function KidsGlbViewer({ url }: Props) {
     return (
         <div style={{ width: "100%", height: "100%", position: "relative" }}>
@@ -34,7 +34,7 @@ export default function KidsGlbViewer({ url }: Props) {
                 />
             </Canvas>
 
-            {/* Overlay to indicate this is a 3D model */}
+            {/* 3D 모델임을 보여주는 오버레이 */}
             <div style={{
                 position: "absolute",
                 bottom: 10,

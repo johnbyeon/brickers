@@ -4,7 +4,7 @@ export const en = {
         proSubtitle: "Precision · Verification · Advanced",
         kidsMode: "KIDS MODE",
         kidsSubtitle: "Easy & Fun Brick Creation",
-        // gallery specific
+        // 갤러리 전용
         title: "Gallery",
         subtitle: "Explore amazing Brick creations made by AI.",
         sortLatest: "Latest",

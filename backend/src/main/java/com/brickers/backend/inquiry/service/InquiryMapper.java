@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * 🗺️ InquiryMapper
+ * 🗺️ 문의 매퍼
  * 
  * Inquiry 엔티티와 DTO 간의 변환을 담당합니다.
  */
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class InquiryMapper {
 
     /**
-     * Entity를 Response DTO로 변환합니다. 이메일을 직접 전달받거나, null일 수 있습니다.
+     * 엔티티를 응답 DTO로 변환합니다. 이메일은 직접 전달받거나 null일 수 있습니다.
      */
     public InquiryResponse toResponse(Inquiry inquiry, String userEmail) {
         if (inquiry == null)

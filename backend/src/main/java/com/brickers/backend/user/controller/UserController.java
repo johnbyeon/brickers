@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
- * 공개 유저 API
+ * 공개 사용자 API
  * /api/users/*
  */
 @Slf4j
@@ -32,7 +32,7 @@ public class UserController {
 
     /**
      * ✅ 닉네임 중복 체크
-     * GET /api/users/check-nickname?nickname=xxx
+     * GET /api/users/check-nickname?nickname=값
      */
     @GetMapping("/check-nickname")
     public ResponseEntity<?> checkNickname(@RequestParam(name = "nickname") String nickname) {
@@ -63,7 +63,7 @@ public class UserController {
 
     /**
      * ✅ 이메일 존재 확인
-     * GET /api/users/check-email?email=xxx
+     * GET /api/users/check-email?email=값
      */
     @GetMapping("/check-email")
     public ResponseEntity<?> checkEmail(@RequestParam(name = "email") String email) {

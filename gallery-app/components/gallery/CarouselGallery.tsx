@@ -42,7 +42,7 @@ export default function CarouselGallery({ items = [], loading = false }: Carouse
         }
     }, [displayItems.length]);
 
-    // Auto-rotation
+    // 자동 회전
     const [isPaused, setIsPaused] = useState(false);
 
     useEffect(() => {
@@ -60,31 +60,31 @@ export default function CarouselGallery({ items = [], loading = false }: Carouse
         return () => clearInterval(interval);
     }, [displayItems.length, isPaused, showGalleryPrompt]);
 
-    // Reset prompt when index changes
+    // 인덱스가 바뀌면 안내 문구 초기화
     useEffect(() => {
         setShowGalleryPrompt(false);
     }, [activeIndex]);
 
     const getCardStyle = (index: number) => {
         const offset = index - activeIndex;
-        // 3D Cylinder Layout
+        // 3D 원통형 레이아웃
         const theta = 40; // Angle between cards (degrees)
         const radius = 550; // Radius of the cylinder
         const angle = offset * theta;
 
-        // Calculate opacity/visibility based on rotation to hide back-facing cards nicely
-        // Normalize angle to -180 ~ 180 to determine "back" side
+        // 회전에 따라 투명도/가시성을 계산해 뒤쪽 카드를 자연스럽게 숨김
+        // 각도를 -180 ~ 180 범위로 정규화해 "뒤쪽" 여부 판단
         const normalizedAngle = ((angle % 360) + 540) % 360 - 180;
 
         return {
             transform: `translateZ(-500px) rotateY(${angle}deg) translateZ(${radius}px)`,
-            // translateZ(-500px) moves the whole pivot back so the front card is near z=0
-            // Then rotateY distributes them in a circle
-            // Then translateZ(radius) pushes them out to the cylinder surface
+            // translateZ(-500px)로 전체 축을 뒤로 보내 앞 카드가 z=0 근처에 오게 함
+            // 이후 rotateY로 원형 배치
+            // 마지막으로 translateZ(radius)로 원통 표면까지 밀어냄
 
-            opacity: Math.abs(normalizedAngle) > 100 ? 0 : 1, // Hide cards that are completely behind
-            zIndex: 100 - Math.abs(Math.round(normalizedAngle)), // Simple z-sorting
-            pointerEvents: Math.abs(normalizedAngle) < 90 ? 'auto' : 'none', // Allow clicks on all visible cards
+            opacity: Math.abs(normalizedAngle) > 100 ? 0 : 1, // 완전히 뒤에 있는 카드는 숨김
+            zIndex: 100 - Math.abs(Math.round(normalizedAngle)), // 단순 z-정렬
+            pointerEvents: Math.abs(normalizedAngle) < 90 ? 'auto' : 'none', // 보이는 카드는 클릭 허용
             transition: 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)',
         } as React.CSSProperties;
     };
@@ -96,7 +96,7 @@ export default function CarouselGallery({ items = [], loading = false }: Carouse
 
     const handleNext = () => {
         if (activeIndex === displayItems.length - 1) {
-            // Already at last item, show gallery prompt
+            // 이미 마지막 항목이면 갤러리 안내 문구 표시
             setShowGalleryPrompt(true);
         } else {
             setActiveIndex(prev => prev + 1);
@@ -119,7 +119,7 @@ export default function CarouselGallery({ items = [], loading = false }: Carouse
             setActiveIndex(index);
         }
 
-        // Navigate to Gallery Detail page with slug
+        // slug를 사용해 갤러리 상세 페이지로 이동
         const galleryItem = item as GalleryItem;
         const safeTitle = galleryItem.title.replace(/\s+/g, '-').replace(/[^\w\-\uAC00-\uD7A3]/g, '');
         const slug = `${safeTitle}-${galleryItem.id}`;
@@ -158,7 +158,7 @@ export default function CarouselGallery({ items = [], loading = false }: Carouse
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >
-            {/* Gallery Prompt Overlay */}
+            {/* 갤러리 안내 오버레이 */}
             {showGalleryPrompt && (
                 <div
                     className="absolute inset-0 bg-white/95 flex items-center justify-center z-[200] animate-fadeIn"
@@ -181,7 +181,7 @@ export default function CarouselGallery({ items = [], loading = false }: Carouse
                 </div>
             )}
 
-            {/* Cards Container - Centered */}
+            {/* 카드 컨테이너 - 중앙 정렬 */}
             <div className="w-full max-w-[1200px] h-[450px] relative flex items-center justify-center perspective-[2000px] preserve-3d pointer-events-auto z-20">
                 {displayItems.map((item, index) => {
                     const isPlaceholder = 'isPlaceholder' in item && item.isPlaceholder;
@@ -250,7 +250,7 @@ export default function CarouselGallery({ items = [], loading = false }: Carouse
                 })}
             </div>
 
-            {/* Controls & Pagination */}
+            {/* 컨트롤 및 페이지네이션 */}
             <div className="flex items-center gap-8 mt-10 z-50 pointer-events-auto">
                 <button
                     className="bg-transparent border-none flex items-center justify-center cursor-pointer transition-all duration-200 text-black text-[40px] font-[100] leading-none font-sans hover:scale-110 hover:text-[#333] active:scale-95 disabled:opacity-10 disabled:cursor-default"

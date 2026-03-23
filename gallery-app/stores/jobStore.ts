@@ -20,7 +20,7 @@ interface JobStore {
     _pollingTimeoutId: ReturnType<typeof setTimeout> | null;
     _pollingCount: number;
 
-    // Actions
+    // 액션
     setActiveJob: (job: JobInfo | null) => void;
     setShowDoneToast: (show: boolean) => void;
     startPolling: (jobId: string, age?: string) => void;
@@ -33,9 +33,9 @@ interface JobStore {
 }
 
 export interface Notification {
-    id: string; // jobId or server notification id
+    id: string; // jobId 또는 서버 알림 id
     title: string;
-    completedAt: string; // ISO string
+    completedAt: string; // ISO 문자열
     isRead: boolean;
     source?: 'local' | 'server';
     link?: string;
@@ -171,7 +171,7 @@ export const useJobStore = create<JobStore>((set, get) => ({
                     // 완료 알림 추가
                     get().addNotification({
                         id: jobId,
-                        title: currentJob.title || '새로운 브릭 생성 완료',
+                        title: currentJob.title || '새 브릭 생성 완료',
                         completedAt: new Date().toISOString(),
                         isRead: false,
                         source: 'local',
@@ -183,8 +183,8 @@ export const useJobStore = create<JobStore>((set, get) => ({
                     if (typeof window !== 'undefined') {
                         import('@/lib/toast-utils').then(({ showToastNotification }) => {
                             showToastNotification(
-                                'Generation Complete!',
-                                'Brick model is ready. Click to check it out!',
+                                '생성 완료!',
+                                '브릭 모델이 준비되었습니다. 눌러서 확인하세요!',
                                 '/logo.png',
                                 stepsUrl
                             );

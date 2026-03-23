@@ -31,7 +31,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     useEffect(() => {
         if (isInitialized) {
-            // Remove all possible lang classes first
+            // 가능한 언어 클래스들을 먼저 모두 제거
             document.body.classList.remove("lang-ko", "lang-en", "lang-ja");
             document.body.classList.add(`lang-${language}`);
         }
@@ -44,7 +44,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
     const t = translations[language];
 
-    // Avoid hydration mismatch if needed, but for translations it's often okay to render default and then swap
+    // 필요하면 hydration mismatch를 피할 수 있지만, 번역은 기본값 렌더 후 교체해도 대체로 무방함
     return (
         <LanguageContext.Provider value={{ language, setLanguage, t }}>
             {children}

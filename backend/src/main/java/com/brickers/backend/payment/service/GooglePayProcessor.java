@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * 📱 GooglePayProcessor
- * 
- * Google Pay 결제 결과 데이터 파싱 및 검증 토큰 추출을 담당합니다.
+ * Google Pay 결제 결과 데이터를 파싱하고 검증 토큰을 추출합니다.
  */
 @Slf4j
 @Component

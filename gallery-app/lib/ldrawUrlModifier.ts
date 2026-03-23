@@ -1,7 +1,7 @@
 export const CDN_BASE = "https://raw.githubusercontent.com/gkjohnson/ldraw-parts-library/master/complete/ldraw/";
 
 /**
- * Determines if a filename represents an LDraw primitive file.
+ * 파일명이 LDraw 프리미티브 파일인지 판별합니다.
  */
 function isPrimitive(filename: string): boolean {
     return /^\d+-\d+/.test(filename) ||
@@ -9,21 +9,21 @@ function isPrimitive(filename: string): boolean {
 }
 
 /**
- * Determines if a filename represents an LDraw subpart file.
+ * 파일명이 LDraw 서브파트 파일인지 판별합니다.
  */
 function isSubpart(filename: string): boolean {
     return /^\d+s\d+\.dat$/i.test(filename);
 }
 
 /**
- * Fixes the LDraw CDN path for a given URL based on the file type
- * (primitive, subpart, or regular part).
+ * 파일 유형(프리미티브, 서브파트, 일반 파트)에 따라
+ * 주어진 URL의 LDraw CDN 경로를 보정합니다.
  */
 function fixLDrawPath(fixed: string, filename: string): string {
     const prim = isPrimitive(filename);
     const sub = isSubpart(filename);
 
-    // Fix incorrect path combinations
+    // 잘못 조합된 경로를 보정
     fixed = fixed.replace("/ldraw/models/p/", "/ldraw/p/");
     fixed = fixed.replace("/ldraw/models/parts/", "/ldraw/parts/");
     fixed = fixed.replace("/ldraw/p/parts/s/", "/ldraw/parts/s/");
@@ -31,15 +31,15 @@ function fixLDrawPath(fixed: string, filename: string): string {
     fixed = fixed.replace("/ldraw/p/s/", "/ldraw/parts/s/");
     fixed = fixed.replace("/ldraw/parts/parts/", "/ldraw/parts/");
 
-    // Primitive in wrong directory → move to /p/
+    // 프리미티브가 잘못된 디렉터리에 있으면 /p/로 이동
     if (prim && fixed.includes("/ldraw/parts/") && !fixed.includes("/parts/s/")) {
         fixed = fixed.replace("/ldraw/parts/", "/ldraw/p/");
     }
-    // Subpart in wrong directory → move to /parts/s/
+    // 서브파트가 잘못된 디렉터리에 있으면 /parts/s/로 이동
     if (sub && fixed.includes("/ldraw/p/") && !fixed.includes("/p/48/") && !fixed.includes("/p/8/")) {
         fixed = fixed.replace("/ldraw/p/", "/ldraw/parts/s/");
     }
-    // No path at all → add appropriate one
+    // 경로가 전혀 없으면 적절한 경로를 추가
     if (!fixed.includes("/parts/") && !fixed.includes("/p/")) {
         if (sub) fixed = fixed.replace("/ldraw/", "/ldraw/parts/s/");
         else if (prim) fixed = fixed.replace("/ldraw/", "/ldraw/p/");
@@ -50,22 +50,22 @@ function fixLDrawPath(fixed: string, filename: string): string {
 }
 
 export interface LDrawURLModifierOptions {
-    /** If set, requests for the main model URL will be redirected to this URL instead. */
+    /** 설정하면 메인 모델 URL 요청을 이 URL로 대신 리디렉션합니다. */
     overrideMainLdrUrl?: string;
-    /** The original main model URL (used to detect redirect targets). */
+    /** 원본 메인 모델 URL입니다. 리디렉션 대상을 감지할 때 사용합니다. */
     mainModelUrl?: string;
-    /** Whether to proxy CDN URLs through /api/proxy/ldr. Defaults to true. */
+    /** CDN URL을 /api/proxy/ldr를 통해 프록시할지 여부입니다. 기본값은 true입니다. */
     useProxy?: boolean;
 }
 
 /**
- * Creates a URL modifier function for THREE.LoadingManager that handles
- * LDraw path resolution, case normalization, and optional CDN proxying.
+ * THREE.LoadingManager용 URL 수정 함수를 생성합니다.
+ * LDraw 경로 해석, 대소문자 정규화, 선택적 CDN 프록시 처리를 담당합니다.
  */
 export function createLDrawURLModifier(options: LDrawURLModifierOptions = {}): (url: string) => string {
     const { overrideMainLdrUrl, mainModelUrl, useProxy = true } = options;
 
-    // Pre-compute main model absolute URL for redirect matching
+    // 리디렉션 매칭용 메인 모델 절대 URL을 미리 계산
     const mainAbs = mainModelUrl ? (() => {
         try { return new URL(mainModelUrl, typeof window !== 'undefined' ? window.location.href : '').href; }
         catch { return mainModelUrl; }
@@ -74,32 +74,32 @@ export function createLDrawURLModifier(options: LDrawURLModifierOptions = {}): (
     return (u: string): string => {
         let fixed = u.replace(/\\/g, "/");
 
-        // Normalize accidental double segments
+        // 실수로 중복된 경로 세그먼트를 정규화
         fixed = fixed.replace("/ldraw/p/p/", "/ldraw/p/");
         fixed = fixed.replace("/ldraw/parts/parts/", "/ldraw/parts/");
 
-        // Override main model URL if requested
+        // 요청 시 메인 모델 URL을 덮어씀
         if (overrideMainLdrUrl && mainAbs) {
             try {
                 const abs = new URL(fixed, window.location.href).href;
                 if (abs === mainAbs) return overrideMainLdrUrl;
-            } catch { /* ignore */ }
+            } catch { /* 무시 */ }
         }
 
-        // Resolve relative URLs when using overrideMainLdrUrl
+        // overrideMainLdrUrl 사용 시 상대 URL을 해석
         if (overrideMainLdrUrl && mainModelUrl) {
             const isAbsolute = fixed.startsWith("http") || fixed.startsWith("blob:") || fixed.startsWith("/") || fixed.includes(":");
             if (!isAbsolute) {
-                try { fixed = new URL(fixed, mainModelUrl).href; } catch { /* ignore */ }
+                try { fixed = new URL(fixed, mainModelUrl).href; } catch { /* 무시 */ }
             }
         }
 
-        // Process LDraw library URLs
+        // LDraw 라이브러리 URL 처리
         const lowerFixed = fixed.toLowerCase();
         if (lowerFixed.includes("ldraw-parts-library") && lowerFixed.endsWith(".dat") && !lowerFixed.includes("ldconfig.ldr")) {
             const filename = fixed.split("/").pop() || "";
 
-            // Normalize filename to lowercase
+            // 파일명을 소문자로 정규화
             const lowerName = filename.toLowerCase();
             if (filename && lowerName !== filename) {
                 fixed = fixed.slice(0, fixed.length - filename.length) + lowerName;
@@ -108,7 +108,7 @@ export function createLDrawURLModifier(options: LDrawURLModifierOptions = {}): (
             fixed = fixLDrawPath(fixed, filename);
         }
 
-        // Proxy CDN URLs
+        // CDN URL을 프록시 처리
         if (useProxy && fixed.startsWith(CDN_BASE)) {
             return `/api/proxy/ldr?url=${encodeURIComponent(fixed)}`;
         }

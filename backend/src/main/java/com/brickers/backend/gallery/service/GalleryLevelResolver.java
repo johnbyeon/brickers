@@ -6,7 +6,7 @@ import com.brickers.backend.job.repository.GenerateJobRepository;
 import org.springframework.stereotype.Component;
 
 /**
- * 🧱 GalleryLevelResolver
+ * 🧱 갤러리 레벨 판별기
  * 
  * 브릭 수(parts)를 기반으로 작품의 난이도(KidsLevel)를 판별하고,
  * Pro 여부를 판단하는 비즈니스 로직을 전담합니다.

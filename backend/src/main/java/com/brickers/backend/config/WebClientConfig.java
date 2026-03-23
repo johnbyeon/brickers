@@ -17,7 +17,7 @@ import java.time.Duration;
 public class WebClientConfig {
 
     /**
-     * WebClient.Builder 빈 - 다른 서비스에서 WebClient 생성 시 사용
+     * WebClient.Builder 빈 - 다른 서비스에서 WebClient를 생성할 때 사용
      */
     @Bean
     public WebClient.Builder webClientBuilder() {

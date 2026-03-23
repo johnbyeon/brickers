@@ -5,7 +5,7 @@ export function scheduleIdleWork(
   options?: { timeout?: number }
 ): IdleHandle {
   if (typeof window === 'undefined') {
-    return 0; // SSR no-op
+    return 0; // SSR에서는 아무 작업도 하지 않음
   }
   if ('requestIdleCallback' in window) {
     return window.requestIdleCallback(
@@ -13,7 +13,7 @@ export function scheduleIdleWork(
       options?.timeout ? { timeout: options.timeout } : undefined
     );
   }
-  // Fallback: setTimeout with 50ms delay (yields to main thread)
+  // 대체 수단: 50ms 지연된 setTimeout 사용(메인 스레드에 양보)
   return setTimeout(callback, 50) as unknown as IdleHandle;
 }
 

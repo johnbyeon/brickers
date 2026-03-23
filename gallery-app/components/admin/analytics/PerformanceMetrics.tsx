@@ -21,7 +21,7 @@ export default function PerformanceMetrics({ performance }: PerformanceMetricsPr
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Failure Reason */}
+            {/* 실패 원인 */}
             <section className="bg-white p-8 rounded-[32px] border-2 border-black shadow-sm lg:col-span-1">
                 <h3 className="text-xl font-black mb-4">⚠️ 실패 원인 분석</h3>
                 <div className="h-[250px] w-full">
@@ -51,7 +51,7 @@ export default function PerformanceMetrics({ performance }: PerformanceMetricsPr
                 </div>
             </section>
 
-            {/* Performance Stats */}
+            {/* 성능 지표 */}
             <section className="bg-white p-8 rounded-[32px] border-2 border-black shadow-sm lg:col-span-2 flex flex-col justify-center">
                 <h3 className="text-xl font-black mb-8">⚡ 시스템 성능 지표 (평균)</h3>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

@@ -18,7 +18,7 @@ export default function NextButton({ onClick, href, label = 'Next' }: Props) {
         </>
     );
 
-    // Use <a> for external navigation (to trigger browser navigation, not SPA)
+    // 외부 이동에는 <a>를 사용(브라우저 내비게이션 유도, SPA 아님)
     if (href) {
         return (
             <a href={href} className={className}>

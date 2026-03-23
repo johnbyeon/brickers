@@ -7,7 +7,7 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                primary: "#FFD700", // Lego Yellow roughly
+                primary: "#FFD700", // 대략적인 레고 옐로우 색상
             }
         },
     },

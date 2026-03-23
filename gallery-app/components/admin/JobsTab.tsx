@@ -216,7 +216,7 @@ export default function JobsTab({
                     )}
                 </tbody>
             </table>
-            {/* Pagination for Jobs */}
+            {/* 작업 페이지네이션 */}
             <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-white rounded-b-lg">
                 <button
                     disabled={jobPage === 0}

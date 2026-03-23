@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 📈 GaTrafficService
- * 
- * 활성 사용자 수, 페이지뷰, 세션 등 순수 방문량 및 트래픽 지표를 담당합니다.
+ * 활성 사용자 수, 페이지뷰, 세션 등 방문량 및 트래픽 지표를 담당합니다.
  */
 @Slf4j
 @Service

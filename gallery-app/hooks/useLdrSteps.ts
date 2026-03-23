@@ -29,9 +29,9 @@ interface UseLdrStepsReturn {
 }
 
 /**
- * LDR parsing and step management hook extracted from kids/steps/page.tsx.
- * Handles fetching LDR, parsing steps via Web Worker, managing blob URLs,
- * and tracking step index and model bounds.
+ * kids/steps/page.tsx에서 분리한 LDR 파싱 및 스텝 관리 훅입니다.
+ * LDR 조회, Web Worker를 통한 스텝 파싱, Blob URL 관리,
+ * 스텝 인덱스와 모델 경계 추적을 담당합니다.
  */
 export default function useLdrSteps({
     ldrUrl,
@@ -51,7 +51,7 @@ export default function useLdrSteps({
         arr.forEach((u) => { try { URL.revokeObjectURL(u); } catch { } });
     };
 
-    // LDR parsing and step generation
+    // LDR 파싱 및 스텝 생성
     useEffect(() => {
         let alive = true;
         (async () => {
@@ -62,7 +62,7 @@ export default function useLdrSteps({
             const res = await fetch(ldrUrl);
             if (!res.ok) throw new Error(`LDR fetch failed: ${res.status}`);
             const text = await res.text();
-            // Apply sorting and bounds calculation (using Worker)
+            // 정렬 및 경계 계산 적용(Worker 사용)
             const worker = new Worker(new URL('@/lib/ldrWorker.ts', import.meta.url));
             worker.postMessage({ type: 'PROCESS_LDR', text });
             worker.onmessage = (e) => {
@@ -102,7 +102,7 @@ export default function useLdrSteps({
         return () => { alive = false; };
     }, [ldrUrl, isAssemblyMode]);
 
-    // Cleanup on unmount
+    // 언마운트 시 정리
     useEffect(() => {
         return () => {
             revokeAll(blobRef.current);

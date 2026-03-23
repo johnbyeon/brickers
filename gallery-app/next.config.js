@@ -20,8 +20,8 @@ const nextConfig = {
         return {
             beforeFiles: [],
             afterFiles: [],
-            // fallback: 동적 라우트([jobId] 등) 매칭 이후 적용
-            // → SSE proxy route handler가 rewrite보다 먼저 매칭됨
+            // fallback: 동적 라우트([jobId] 등) 매칭 이후에 적용
+            // → SSE 프록시 라우트 핸들러가 rewrite보다 먼저 매칭됨
             fallback: [
                 {
                     source: '/api/:path*',

@@ -1,4 +1,4 @@
-// API Client - 공통 유틸리티 (ApiError, request, getHeaders 등)
+// API 클라이언트 - 공통 유틸리티(ApiError, request, getHeaders 등)
 const rawBase = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 export const API_BASE = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
 

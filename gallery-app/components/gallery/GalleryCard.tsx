@@ -14,7 +14,7 @@ type Props = {
     onLoginRequired?: () => void;
 };
 
-// Check if URL is valid (starts with http/https, is a blob, or is a relative path)
+// URL이 유효한지 확인(http/https로 시작하거나, blob이거나, 상대 경로인지)
 function isValidImageUrl(url?: string): boolean {
     if (!url) return false;
     return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/') || url.startsWith('blob:');
@@ -66,7 +66,7 @@ export default function GalleryCard({ item, isLoggedIn, onLikeToggle, onBookmark
     return (
         <Link href={`/gallery/${slug}`} className="block group">
             <div className="gallery-card bg-white rounded-3xl overflow-hidden border-[3px] border-black hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] transition-all duration-300">
-                {/* Thumbnail Area */}
+                {/* 썸네일 영역 */}
                 <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden border-b-[3px] border-black">
                     {hasValidImage ? (
                         <img
@@ -82,12 +82,12 @@ export default function GalleryCard({ item, isLoggedIn, onLikeToggle, onBookmark
                         </div>
                     )}
 
-                    {/* Gradient Overlay for Icon Visibility */}
+                    {/* 아이콘 가시성을 위한 그라디언트 오버레이 */}
                     <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black/50 to-transparent z-0 pointer-events-none" />
 
-                    {/* Overlay Action Buttons */}
+                    {/* 오버레이 액션 버튼 */}
                     <div className="absolute top-3 right-3 flex items-center gap-2 z-10">
-                        {/* Like button */}
+                        {/* 좋아요 버튼 */}
                         <button
                             onClick={handleLikeClick}
                             className="flex items-center justify-center w-8 h-8 transition-transform active:scale-95 text-white drop-shadow-md"
@@ -106,7 +106,7 @@ export default function GalleryCard({ item, isLoggedIn, onLikeToggle, onBookmark
                             </svg>
                         </button>
 
-                        {/* Bookmark button */}
+                        {/* 북마크 버튼 */}
                         {onBookmarkToggle && (
                             <button
                                 onClick={handleBookmarkClick}
@@ -129,17 +129,17 @@ export default function GalleryCard({ item, isLoggedIn, onLikeToggle, onBookmark
                     </div>
                 </div>
 
-                {/* Content Area */}
+                {/* 내용 영역 */}
                 <div className="p-4 flex flex-col gap-1">
-                    {/* Title & User Info */}
+                    {/* 제목 및 사용자 정보 */}
                     <div className="flex items-center justify-between w-full">
                         <h3 className="font-extrabold text-[#000] text-[16px] leading-tight truncate mr-2 group-hover:text-amber-500 transition-colors">
                             {item.title}
                         </h3>
 
-                        {/* Nickname & Avatar */}
+                        {/* 닉네임 및 아바타 */}
                         <div className="flex items-center gap-1.5 shrink-0 max-w-[50%]">
-                            {/* Profile Image / Avatar */}
+                            {/* 프로필 이미지 / 아바타 */}
                             <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden border border-gray-200">
                                 {item.authorProfileImage ? (
                                     <img src={item.authorProfileImage} alt={item.authorNickname || ''} className="w-full h-full object-cover" />
@@ -155,7 +155,7 @@ export default function GalleryCard({ item, isLoggedIn, onLikeToggle, onBookmark
                         </div>
                     </div>
 
-                    {/* Registration Date */}
+                    {/* 등록일 */}
                     <div className="text-[11px] text-gray-400 font-medium">
                         {formatDate(item.createdAt)}
                     </div>

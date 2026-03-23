@@ -66,7 +66,7 @@ public class GalleryRevalidateService {
             return;
         }
 
-        // Generate slug (must match Next.js logic)
+        // slug 생성(Next.js 로직과 일치해야 함)
         String slug = null;
         if (title != null && postId != null) {
             String safeTitle = title.replaceAll("\\s+", "-")

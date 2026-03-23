@@ -46,7 +46,7 @@ export default function RefundsTab() {
                             </span>
                         </h4>
                         <p>
-                            {item.itemName && <><strong>{t.admin.refund.planName}:</strong> {item.itemName}<br /></>}
+                                {item.itemName && <><strong>{t.admin.refund.planName}:</strong> {item.itemName}<br /></>}
                             <strong>{t.admin.refund.amount}:</strong> {item.amount?.toLocaleString()}
                         </p>
                         {item.cancelReason && (

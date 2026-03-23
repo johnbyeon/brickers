@@ -5,24 +5,24 @@
  */
 export function renderMarkdown(md: string): string {
     let html = md
-        // ### H3
+        // ### H3 제목
         .replace(/^### (.+)$/gm, '<h4 style="font-size:14px;font-weight:800;margin:14px 0 6px;color:#000">$1</h4>')
-        // ## H2
+        // ## H2 제목
         .replace(/^## (.+)$/gm, '<h3 style="font-size:16px;font-weight:900;margin:18px 0 8px;color:#000">$1</h3>')
-        // # H1
+        // # H1 제목
         .replace(/^# (.+)$/gm, '<h2 style="font-size:18px;font-weight:900;margin:20px 0 10px;color:#000">$1</h2>')
-        // **bold**
+        // **굵게**
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        // > blockquote
+        // > 인용문
         .replace(/^> (.+)$/gm, '<blockquote style="border-left:3px solid #ddd;padding-left:12px;color:#666;margin:8px 0">$1</blockquote>')
-        // - list item
+        // - 목록 항목
         .replace(/^- (.+)$/gm, '<div style="padding-left:16px;margin:2px 0">• $1</div>')
-        // --- hr
+        // --- 가로줄
         .replace(/^---$/gm, '<hr style="border:none;border-top:1px solid #eee;margin:16px 0"/>')
-        // newline
+        // 줄바꿈
         .replace(/\n/g, '<br/>');
 
-    // 마크다운 테이블 → HTML 테이블 (향상된 버전)
+    // 마크다운 테이블을 HTML 테이블로 변환(향상된 버전)
     html = html.replace(
         /(?:<br\/?>|^)\|(.+?)\|(?:<br\/?>)\|[-|\s:|]+\|(?:<br\/?>)((?:\|.+?\|(?:<br\/?>)?)+)/gm,
         (_m, header, body) => {

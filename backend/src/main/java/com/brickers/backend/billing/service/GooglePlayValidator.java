@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * Google Play Developer API 검증 시뮬레이터 (Mock)
- * 실제 Google API 호출 대신 내부 로직으로 검증 결과 반환
+ * Google Play Developer API 검증 시뮬레이터(Mock)
+ * 실제 Google API 호출 대신 내부 로직으로 검증 결과를 반환합니다.
  */
 @Component
 @Slf4j

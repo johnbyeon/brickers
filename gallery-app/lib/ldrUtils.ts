@@ -100,7 +100,7 @@ export function parseAndProcessSteps(ldrText: string): LdrStepData {
         return b.avgY - a.avgY;
     });
 
-    // Merge steps by layer
+    // 레이어 기준으로 스텝 병합
     const LAYER_EPS = 8;
     const merged: Segment[] = [];
     let curLinesMerge: string[] = [];
@@ -111,7 +111,7 @@ export function parseAndProcessSteps(ldrText: string): LdrStepData {
         if (curY === Number.NEGATIVE_INFINITY || Math.abs(seg.avgY - curY) < LAYER_EPS) {
             curLinesMerge = curLinesMerge.concat(seg.lines);
 
-            // Merge brick counts
+            // 브릭 개수 병합
             seg.bricks.forEach((info, key) => {
                 if (curBricksMerge.has(key)) {
                     curBricksMerge.get(key)!.count += info.count;
@@ -135,7 +135,7 @@ export function parseAndProcessSteps(ldrText: string): LdrStepData {
     }
     const sortedSegments = [...merged];
     if (sortedSegments.length === 0 && header.lines.length > 0) {
-        sortedSegments.push(header); // Fallback for header-only file
+        sortedSegments.push(header); // 헤더만 있는 파일에 대한 예외 처리
     }
 
     // 3. 누적 및 개별 텍스트 및 브릭 정보 생성
@@ -159,7 +159,7 @@ export function parseAndProcessSteps(ldrText: string): LdrStepData {
         // 개별 스텝 텍스트 (헤더 + 해당 세그먼트)
         stepOnlyTexts.push(headerText + (headerText ? "\n" : "") + seg.lines.join("\n"));
 
-        // Each entry in stepBricks corresponds to the bricks *newly added* in that step
+        // stepBricks의 각 항목은 해당 스텝에서 새로 추가된 브릭을 의미함
         stepBricks.push(Array.from(seg.bricks.values()));
 
         // 정렬된 전체 텍스트에 추가
@@ -168,7 +168,7 @@ export function parseAndProcessSteps(ldrText: string): LdrStepData {
     }
     const sortedFullText = sortedParts.join("\n");
 
-    // Bounds 생성
+    // 경계 상자 생성
     let bounds: THREE.Box3 | null = null;
     if (minX !== Infinity) {
         bounds = new THREE.Box3(

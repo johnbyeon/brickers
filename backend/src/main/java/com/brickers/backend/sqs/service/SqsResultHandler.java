@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 🛠️ SqsResultHandler
+ * 🛠️ SQS 결과 처리기
  * 
  * SQS로부터 수신된 AI 처리 결과(RESULT)를 바탕으로
  * GenerateJobEntity를 업데이트하고 정책에 따른 후처리를 담당합니다.

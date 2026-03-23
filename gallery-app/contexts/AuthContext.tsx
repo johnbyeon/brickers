@@ -188,7 +188,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             return;
         }
 
-        // Keep previous cache while auth bootstrap is still in progress.
+        // 인증 초기화가 아직 진행 중이면 기존 캐시를 유지
         if (!isLoading) {
             localStorage.removeItem("userId");
             localStorage.removeItem("nickname");

@@ -55,7 +55,7 @@ function LdrModel({
 
     const [group, setGroup] = useState<THREE.Group | null>(null);
 
-    // Stabilize callbacks with refs to prevent useEffect re-runs on every render
+    // 매 렌더마다 useEffect가 다시 돌지 않도록 ref로 콜백 안정화
     const onLoadedRef = useRef(onLoaded);
     const onErrorRef = useRef(onError);
     const onStepCountChangeRef = useRef(onStepCountChange);
@@ -71,7 +71,7 @@ function LdrModel({
             try {
                 setGroup(null);
 
-                // 0. Preload parts bundle (cache injection)
+                // 0. parts 번들 미리 적재(캐시 주입)
                 await preloadPartsBundle(url);
 
                 // 1. LDR 텍스트 가져오기
@@ -112,7 +112,7 @@ function LdrModel({
                     removeNullChildren(g);
                     g.rotation.x = Math.PI;
 
-                    // Hide lines (white borders)
+                    // 선 숨기기(흰색 테두리)
                     g.traverse((child: any) => {
                         if (child.isLineSegments) {
                             child.visible = false;
@@ -151,13 +151,13 @@ function LdrModel({
         };
     }, [url, ldconfigUrl, loader, camera, controls, invalidate]);
 
-    // 원본 머티리얼 저장 (투명화 후 복원용)
+    // 원본 머티리얼 저장(투명화 후 복원용)
     const originalMaterialsRef = useRef<Map<number, THREE.Material | THREE.Material[]>>(new Map());
 
     useEffect(() => {
         if (!group || !stepMode) return;
 
-        // 원본 머티리얼 백업 (최초 1회)
+        // 원본 머티리얼 백업(최초 1회)
         if (originalMaterialsRef.current.size === 0) {
             group.children.forEach((child) => {
                 child.traverse((obj: any) => {
@@ -176,7 +176,7 @@ function LdrModel({
         }
 
         if (isPreview) {
-            // 프리뷰 모드: 모든 파트 보이고, 원래 머티리얼 복원
+            // 프리뷰 모드: 모든 파트를 보이게 하고 원래 머티리얼 복원
             group.children.forEach((child) => {
                 child.visible = true;
                 child.traverse((obj: any) => {

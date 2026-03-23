@@ -65,7 +65,7 @@ public class LocalStorageService implements StorageService {
 
             Path target = dir.resolve(finalFileName).normalize();
 
-            // path traversal 방어
+            // path traversal 공격 방어
             if (!target.startsWith(dir)) {
                 throw new IllegalStateException("잘못된 파일 경로");
             }
@@ -118,7 +118,7 @@ public class LocalStorageService implements StorageService {
             String filename = UUID.randomUUID() + "." + ext;
             Path target = dir.resolve(filename).normalize();
 
-            // path traversal 방어
+            // path traversal 공격 방어
             if (!target.startsWith(dir)) {
                 throw new IllegalStateException("잘못된 파일 경로");
             }

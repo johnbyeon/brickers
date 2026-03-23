@@ -11,11 +11,11 @@ import BackgroundBricks from "@/components/layout/BackgroundBricks";
 import UpgradeModal from "@/components/common/UpgradeModal";
 import EditGalleryModal from "@/components/gallery/EditGalleryModal";
 
-// Hooks
+// 훅
 import useMyPageData, { type MenuItem } from "@/hooks/useMyPageData";
 import useJobActions from "@/hooks/useJobActions";
 
-// Components
+// 컴포넌트
 import { Icons } from "./components/Icons";
 import ProfileTab from "./components/ProfileTab";
 import MembershipTab from "./components/MembershipTab";
@@ -34,7 +34,7 @@ function MyPageContent() {
     const { language, setLanguage, t } = useLanguage();
     const { isAuthenticated, isLoading, authFetch, setUser } = useAuth();
 
-    // === Custom Hooks ===
+    // === 커스텀 훅 ===
     const pageData = useMyPageData({
         language,
         isAuthenticated,
@@ -52,14 +52,14 @@ function MyPageContent() {
         onProfileUpdated: pageData.setProfile,
     });
 
-    // Auth redirect
+    // 인증 리디렉션
     useEffect(() => {
         if (!isLoading && !isAuthenticated) {
             router.replace("/?login=true");
         }
     }, [isLoading, isAuthenticated, router]);
 
-    // URL searchParam sync for activeMenu
+    // activeMenu와 URL searchParam 동기화
     useEffect(() => {
         const menu = searchParams.get('menu');
         if (menu && ['profile', 'membership', 'jobs', 'inquiries', 'reports', 'refunds', 'settings', 'delete'].includes(menu)) {
@@ -67,7 +67,7 @@ function MyPageContent() {
         }
     }, [searchParams]);
 
-    // === Sidebar menu items ===
+    // === 사이드바 메뉴 항목 ===
     const menuItems: { id: MenuItem; label: string }[] = [
         { id: "profile", label: t.menu.profile },
         { id: "membership", label: t.menu.membership },
@@ -88,7 +88,7 @@ function MyPageContent() {
         settings: Icons.Settings,
     };
 
-    // === Tab content ===
+    // === 탭 콘텐츠 ===
     const renderContent = () => {
         if (pageData.loading) return <div className={styles.mypage__loading}>{t.common.loading}...</div>;
 
@@ -122,7 +122,7 @@ function MyPageContent() {
             default:
                 return (
                     <div className={styles.mypage__section}>
-                        <h2 className={styles.mypage__sectionTitle}>Pages</h2>
+                        <h2 className={styles.mypage__sectionTitle}>페이지</h2>
                         <div className={styles.mypage__card}>
                             <p>{t.mypage.preparing}</p>
                         </div>
@@ -131,7 +131,7 @@ function MyPageContent() {
         }
     };
 
-    // === Render ===
+    // === 렌더링 ===
     return (
         <div className={`${styles.mypage} ${styles['lang-' + language]}`}>
             <BackgroundBricks />
@@ -172,7 +172,7 @@ function MyPageContent() {
                                 );
                             })}
                         </div>
-                        <button className={styles.mypage__deleteLink} onClick={() => {/* Handle delete */}}>
+                        <button className={styles.mypage__deleteLink} onClick={() => {/* 삭제 기능 연결 예정 */}}>
                             {t.menu.delete} <Icons.LogOut width={16} height={16} />
                         </button>
                     </div>
@@ -189,7 +189,7 @@ function MyPageContent() {
                 </div>
             </div>
 
-            {/* Modals */}
+            {/* 모달 */}
             <UpgradeModal isOpen={actions.showUpgrade} onClose={() => actions.setShowUpgrade(false)} />
 
             <JobMenuModal

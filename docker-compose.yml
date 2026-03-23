@@ -92,7 +92,7 @@ services:
       # API_BASE는 서버사이드(SSR, rewrites)에서 사용 → Docker 내부 네트워크
       - API_BASE=http://backend:8080
       - REVALIDATE_SECRET=${GALLERY_REVALIDATE_SECRET}
-      # AI Server URL (nginx envsubst용 — Mac Studio Cloudflare Tunnel)
+      # AI 서버 URL(nginx envsubst용 - Mac Studio Cloudflare Tunnel)
       - AI_SERVER_URL=${AI_SERVER_URL}
     depends_on:
       - backend

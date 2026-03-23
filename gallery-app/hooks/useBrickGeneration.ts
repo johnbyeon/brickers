@@ -26,7 +26,7 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
     const [agentLogs, setAgentLogs] = useState<string[]>([]);
     const [debugLog, setDebugLog] = useState<string>('');
 
-    // Result data
+    // 결과 데이터
     const [ldrUrl, setLdrUrl] = useState<string | null>(null);
     const [glbUrl, setGlbUrl] = useState<string | null>(null);
     const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -83,7 +83,7 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
                 search_term: targetPrompt || undefined
             });
 
-            // [GA4] 03_upload_image 트래킹 (프롬프트/이미지 공통)
+            // [GA4] 03_upload_image 추적(프롬프트/이미지 공통)
             gtag.trackFunnel("03_upload_image", { label: targetPrompt ? 'prompt' : 'image' });
 
             try {
@@ -120,7 +120,7 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
                     language,
                 };
 
-                // [GA4] 04_generate_request 트래킹
+                // [GA4] 04_generate_request 추적
                 gtag.trackFunnel("04_generate_request");
 
                 const startRes = await authFetchRef.current('/api/kids/generate', {
@@ -145,7 +145,7 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
 
                 useJobStore.getState().setActiveJob({ jobId: jid, status: 'QUEUED', age });
 
-                // [NEW] Track user search keyword if targetPrompt exists
+                // 신규: targetPrompt가 있으면 사용자 검색어를 추적
                 if (targetPrompt) {
                     gtag.trackUserFeedback({
                         action: "search",
@@ -172,7 +172,7 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
                     const stage = statusData.stage || statusData.status || "QUEUED";
                     setCurrentStage(stage);
 
-                    // [NEW] Capture latest category for fail/success tracking
+                    // 신규: 실패/성공 추적용 최신 카테고리 저장
                     if (statusData.imageCategory) {
                         latestCategory = statusData.imageCategory;
                     }
@@ -211,7 +211,7 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
 
                         const waitTime = Math.round((Date.now() - startTime) / 1000);
 
-                        // [GA4] Success Tracking
+                        // [GA4] 성공 추적
                         gtag.trackGeneration("success", {
                             job_id: jid,
                             age: age,
@@ -220,15 +220,15 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
                             suggested_tags: statusData.suggestedTags?.join(', '),
                             lmm_latency: statusData.lmmLatency,
                             image_category: latestCategory || statusData.imageCategory,
-                            est_cost: statusData.estCost, // [New] Cost Tracking
-                            token_count: statusData.tokenCount, // [New] Token Tracking
-                            stability_score: statusData.stabilityScore // [New] Stability Score
+                            est_cost: statusData.estCost, // 신규: 비용 추적
+                            token_count: statusData.tokenCount, // 신규: 토큰 수 추적
+                            stability_score: statusData.stabilityScore // 신규: 안정성 점수 추적
                         });
 
-                        // [GA4] 05_generate_success 트래킹
+                        // [GA4] 05_generate_success 추적
                         gtag.trackFunnel("05_generate_success", { job_id: jid, age: age });
 
-                        // [NEW] Track Search Term Fallback (If no user prompt, use identified tags/subject)
+                        // 신규: 사용자 프롬프트가 없으면 식별된 태그/주제로 검색어를 대체 추적
                         if (!targetPrompt) {
                             const fallbackTerm = statusData.title || (statusData.suggestedTags && statusData.suggestedTags[0]) || "Untitled";
                             gtag.trackUserFeedback({
@@ -261,12 +261,12 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
                 console.error("[useBrickGeneration] Error:", e);
                 setStatus("error");
 
-                // [GA4] Fail Tracking (Include category if identified)
+                // [GA4] 실패 추적(식별된 카테고리가 있으면 포함)
                 gtag.trackGeneration("fail", {
                     job_id: jid || "unknown",
                     error_type: e instanceof Error ? e.name : "UnknownError",
                     message: e instanceof Error ? e.message : String(e),
-                    image_category: latestCategory || undefined // [NEW]
+                    image_category: latestCategory || undefined // 신규
                 });
             }
         };
@@ -292,7 +292,7 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
         };
     }, [rawFile, targetPrompt, age, budget]);
 
-    // SSE Logs
+    // SSE 로그
     useEffect(() => {
         if (!jobId || status !== "loading") return;
 
@@ -346,6 +346,6 @@ export function useBrickGeneration({ rawFile, targetPrompt, age, budget }: Gener
         brickCount,
         screenshotUrls,
         jobTitle,
-        setLdrUrl, // For color updates
+        setLdrUrl, // 색상 변경 시 사용
     };
 }

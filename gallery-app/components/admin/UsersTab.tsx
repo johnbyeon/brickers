@@ -33,23 +33,23 @@ export default function UsersTab() {
             <div className="mb-5 flex gap-2.5">
                 <input
                     type="text"
-                    placeholder={t.admin.users?.searchPlaceholder || "Search by email or nickname..."}
+                    placeholder={t.admin.users?.searchPlaceholder || "이메일 또는 닉네임으로 검색..."}
                     value={searchTerm}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
                     style={{ padding: "10px", borderRadius: "8px", border: "1px solid #ddd", flex: 1 }}
                 />
                 <button onClick={fetchUsers} style={{ padding: "10px 20px", borderRadius: "8px", border: "none", background: "#000", color: "#fff", cursor: "pointer" }}>
-                    Search
+                    검색
                 </button>
             </div>
             <table style={{ width: "100%", borderCollapse: "collapse", background: "white", borderRadius: "8px", overflow: "hidden" }}>
                 <thead style={{ background: "#f5f5f5" }}>
                     <tr>
-                        <th style={{ padding: "12px", textAlign: "left" }}>User info</th>
-                        <th style={{ padding: "12px", textAlign: "left" }}>Membership</th>
-                        <th style={{ padding: "12px", textAlign: "left" }}>Role</th>
-                        <th style={{ padding: "12px", textAlign: "left" }}>Status</th>
-                        <th style={{ padding: "12px", textAlign: "left" }}>Actions</th>
+                        <th style={{ padding: "12px", textAlign: "left" }}>사용자 정보</th>
+                        <th style={{ padding: "12px", textAlign: "left" }}>멤버십</th>
+                        <th style={{ padding: "12px", textAlign: "left" }}>권한</th>
+                        <th style={{ padding: "12px", textAlign: "left" }}>상태</th>
+                        <th style={{ padding: "12px", textAlign: "left" }}>액션</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,7 +60,7 @@ export default function UsersTab() {
                             <td style={{ padding: "12px" }}>
                                 <div style={{ fontWeight: "bold" }}>{user.nickname}</div>
                                 <div style={{ fontSize: "12px", color: "#666" }}>{user.email}</div>
-                                <div style={{ fontSize: "11px", color: "#999" }}>Joined: {new Date(user.createdAt).toLocaleDateString()}</div>
+                                <div style={{ fontSize: "11px", color: "#999" }}>가입일: {new Date(user.createdAt).toLocaleDateString()}</div>
                             </td>
                             <td style={{ padding: "12px" }}>
                                 <span
@@ -98,14 +98,14 @@ export default function UsersTab() {
                                             onClick={() => handleUserSuspend(user.id)}
                                             style={{ padding: "6px 12px", borderRadius: "4px", border: "1px solid #ff4d4f", background: "#fff", color: "#ff4d4f", cursor: "pointer", fontSize: "12px" }}
                                         >
-                                            Suspend
+                                            정지
                                         </button>
                                     ) : user.accountState === "SUSPENDED" ? (
                                         <button
                                             onClick={() => handleUserActivate(user.id)}
                                             style={{ padding: "6px 12px", borderRadius: "4px", border: "1px solid #52c41a", background: "#fff", color: "#52c41a", cursor: "pointer", fontSize: "12px" }}
                                         >
-                                            Activate
+                                            활성화
                                         </button>
                                     ) : null}
                                     <button
@@ -120,7 +120,7 @@ export default function UsersTab() {
                                             fontSize: "12px"
                                         }}
                                     >
-                                        {user.role === "ADMIN" ? "Set USER" : "Set ADMIN"}
+                                        {user.role === "ADMIN" ? "USER로 변경" : "ADMIN으로 변경"}
                                     </button>
                                 </div>
                             </td>
@@ -128,7 +128,7 @@ export default function UsersTab() {
                     ))}
                 </tbody>
             </table>
-            {users.length === 0 && <p className="text-center text-[#999] py-5 text-sm">{t.admin.users?.empty || "No users found."}</p>}
+            {users.length === 0 && <p className="text-center text-[#999] py-5 text-sm">{t.admin.users?.empty || "사용자를 찾을 수 없습니다."}</p>}
         </div>
     );
 }

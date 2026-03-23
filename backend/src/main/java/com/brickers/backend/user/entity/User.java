@@ -31,7 +31,7 @@ public class User {
     @Indexed(name = "ix_email")
     private String email;
 
-    // Nickname uniqueness is enforced at DB level in MongoIndexInitializer.
+    // 닉네임 고유성은 MongoIndexInitializer에서 DB 레벨로 보장합니다.
     private String nickname;
 
     private String profileImage;

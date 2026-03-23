@@ -25,8 +25,8 @@ public class SqsMessage {
      * 메시지 타입
      */
     public enum MessageType {
-        REQUEST, // Backend → AI Server (작업 요청)
-        RESULT // AI Server → Backend (작업 결과)
+        REQUEST, // 백엔드 → AI 서버(작업 요청)
+        RESULT // AI 서버 → 백엔드(작업 결과)
     }
 
     private MessageType type;
@@ -38,22 +38,22 @@ public class SqsMessage {
     private String sourceImageUrl;
     private String age;
     private Integer budget;
-    private String language; // [New]
+    private String language; // 신규
 
     // RESULT 필드
     private Boolean success;
     private String correctedUrl;
     private String glbUrl;
     private String ldrUrl;
-    private String initialLdrUrl; // [New]
+    private String initialLdrUrl; // 신규
     private String bomUrl;
-    private String pdfUrl; // [New] PDF URL
-    private String backgroundUrl; // Background image URL (Nano Banana)
+    private String pdfUrl; // 신규: PDF URL
+    private String backgroundUrl; // 배경 이미지 URL(Nano Banana)
     private Integer parts;
     private Integer finalTarget;
     private List<String> tags;
     private String errorMessage;
-    private Double estCost; // [New]
-    private Integer tokenCount; // [New]
-    private Integer stabilityScore; // [New]
+    private Double estCost; // 신규
+    private Integer tokenCount; // 신규
+    private Integer stabilityScore; // 신규
 }

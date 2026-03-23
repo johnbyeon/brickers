@@ -5,7 +5,7 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Environment } from "@react-three/drei";
 
-// Random utility functions
+// 무작위 유틸리티 함수
 const randomRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
 const randomColor = () => {
@@ -13,7 +13,7 @@ const randomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-// Physics constants
+// 물리 상수
 const FRICTION = 0.98;
 const IMPULSE_STRENGTH = 0.15;
 const GRAVITY = 0.015;
@@ -35,7 +35,7 @@ type BrickProps = {
 
 type BrickSeed = Omit<BrickProps, "entryDirection"> & { id: number };
 
-// Stud geometry helpers
+// 스터드 지오메트리 헬퍼
 const Stud = ({ position, color }: { position: [number, number, number]; color: string }) => (
     <mesh position={position}>
         <cylinderGeometry args={[0.15, 0.15, 0.2, 16]} />
@@ -57,7 +57,7 @@ function Brick({
     const isSides = entryDirection === "sides";
     const isFloat = entryDirection === "float";
 
-    // Initialize position based on entry direction
+    // 진입 방향에 따라 초기 위치 설정
     const position = useRef(
         useMemo(() => {
             if (isSides) {
@@ -92,9 +92,9 @@ function Brick({
         new THREE.Vector3(randomRange(-0.1, 0.1), randomRange(-0.1, 0.1), randomRange(-0.1, 0.1))
     );
 
-    // Physics State
+    // 물리 상태
     const isSettled = useRef(isFloat);
-    const floatOffset = useRef(randomRange(0, Math.PI * 2)); // Random phase for sine wave
+    const floatOffset = useRef(randomRange(0, Math.PI * 2)); // 사인파용 임의 위상
 
     useFrame((state, delta) => {
         if (!meshRef.current) return;
@@ -105,11 +105,11 @@ function Brick({
         const angVel = angularVelocity.current;
 
         if (!isSettled.current) {
-            // FALLING STATE
-            vel.y -= GRAVITY; // gravity
-            pos.add(vel); // move
+            // 낙하 상태
+            vel.y -= GRAVITY; // 중력
+            pos.add(vel); // 이동
 
-            // floor collision
+            // 바닥 충돌
             if (pos.y < FLOOR_Y) {
                 pos.y = FLOOR_Y;
                 vel.y = -vel.y * BOUNCE_DAMPING;
@@ -119,55 +119,55 @@ function Brick({
                 angVel.x = randomRange(-0.2, 0.2);
                 angVel.z = randomRange(-0.2, 0.2);
 
-                // If bounce is small enough, switch to Settled/Floating state
+                // 반동이 충분히 작아지면 정착/부유 상태로 전환
                 if (Math.abs(vel.y) < 0.1 && Math.abs(vel.x) < 0.1) {
                     isSettled.current = true;
-                    // Reset heavy downward velocity, keep some random drift for float start
+                    // 큰 하강 속도는 초기화하고 부유 시작용 약한 드리프트만 유지
                     vel.set(randomRange(-0.02, 0.02), randomRange(0.01, 0.03), randomRange(-0.02, 0.02));
                     angVel.set(randomRange(-0.01, 0.01), randomRange(-0.01, 0.01), randomRange(-0.01, 0.01));
                 }
             }
         } else {
-            // FLOATING / ZERO-GRAVITY STATE
+            // 부유 / 무중력 상태
 
-            // 1. Move by velocity (drifting)
+            // 1. 속도에 따라 이동(드리프트)
             pos.add(vel);
 
-            // 2. Apply Drag (Friction) to slow down impulses
+            // 2. 드래그(마찰)를 적용해 충격을 서서히 줄임
             vel.multiplyScalar(FRICTION);
 
-            // 3. Add Sine Wave Idle Motion (Ups and Downs)
-            // We add this directly to velocity or position. 
-            // Adding small force to velocity creates smoother drift.
+            // 3. 사인파 기반 유휴 움직임 추가(상하 진동)
+            // 위치나 속도에 직접 더할 수 있는데,
+            // 속도에 작은 힘을 더하면 더 부드러운 드리프트가 만들어짐
             const time = state.clock.elapsedTime;
             vel.y += Math.sin(time + floatOffset.current) * 0.0005;
             vel.x += Math.cos(time * 0.5 + floatOffset.current) * 0.0002;
 
-            // 4. Rotate slowly
+            // 4. 천천히 회전
             rot.x += angVel.x;
             rot.y += angVel.y;
             rot.z += angVel.z;
-            angVel.multiplyScalar(0.99); // Slow down rotation over time
+            angVel.multiplyScalar(0.99); // 시간이 지나며 회전 속도 감소
 
-            // 5. Keep inside Bounds (Bounce off invisible walls)
-            // X bounds
+            // 5. 경계 내부 유지(보이지 않는 벽에 튕김)
+            // X 경계
             if (pos.x > 25 || pos.x < -25) {
                 vel.x = -vel.x * 0.8;
                 pos.x = Math.max(-25, Math.min(25, pos.x));
             }
-            // Y bounds (Ceiling and Floor for zero-g)
+            // Y 경계(무중력 상태의 천장과 바닥)
             if (pos.y > 15 || pos.y < FLOOR_Y) {
                 vel.y = -vel.y * 0.8;
                 pos.y = Math.max(FLOOR_Y, Math.min(15, pos.y));
             }
-            // Z bounds
+            // Z 경계
             if (pos.z > 0 || pos.z < -20) {
                 vel.z = -vel.z * 0.8;
                 pos.z = Math.max(-20, Math.min(0, pos.z));
             }
         }
 
-        // Apply visual rotation from physics + falling
+        // 물리 계산과 낙하 상태를 시각 회전에 반영
         if (!isSettled.current) {
             rot.x += angVel.x;
             rot.y += angVel.y;
@@ -178,24 +178,23 @@ function Brick({
     });
 
     const onHover = () => {
-        // Apply impulse
+        // 충격량 적용
         velocity.current.add(new THREE.Vector3(
             randomRange(-IMPULSE_STRENGTH, IMPULSE_STRENGTH),
             randomRange(IMPULSE_STRENGTH * 0.5, IMPULSE_STRENGTH), // Slight upward bias
             randomRange(-IMPULSE_STRENGTH, IMPULSE_STRENGTH)
         ));
 
-        // Add rotation impulse
+        // 회전 충격 추가
         angularVelocity.current.add(new THREE.Vector3(
             randomRange(-0.1, 0.1),
             randomRange(-0.1, 0.1),
             randomRange(-0.1, 0.1)
         ));
 
-        // If it was still falling, force settle to start floating? 
-        // Or let it keep falling? Let's just let physics handle it. 
-        // If falling, the heavy gravity will overcome this impulse mostly.
-        // If floating, this will cause it to fly around.
+        // 아직 낙하 중이어도 강제로 부유 상태로 바꾸지 않고 물리 계산에 맡깁니다.
+        // 낙하 중이면 중력이 대부분의 충격을 상쇄하고,
+        // 부유 중이면 이 충격으로 주변을 떠다니게 됩니다.
     };
 
     const renderGeometry = () => {

@@ -13,16 +13,16 @@ export default function GalleryManagement() {
     const [posts, setPosts] = useState<GalleryPost[]>([]);
     const [loading, setLoading] = useState(false);
 
-    // Filter States
+    // 필터 상태
     const [keyword, setKeyword] = useState("");
     const [visibility, setVisibility] = useState<string>("ALL"); // ALL, PUBLIC, PRIVATE
     const [status, setStatus] = useState<string>("ALL"); // ALL, ACTIVE, DELETED
 
-    // Pagination
+    // 페이지네이션
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
-    // Edit Modal State
+    // 수정 모달 상태
     const [editingPost, setEditingPost] = useState<GalleryPost | null>(null);
     const [showEditModal, setShowEditModal] = useState(false);
 
@@ -37,7 +37,7 @@ export default function GalleryManagement() {
             if (visibility !== "ALL") params.append("visibility", visibility);
 
             if (status === "DELETED") params.append("deleted", "true");
-            else params.append("deleted", "false"); // Default to active
+            else params.append("deleted", "false"); // 기본값은 활성 게시글
 
             const res = await authFetch(`/api/admin/gallery?${params.toString()}`);
             if (res.ok) {
@@ -56,7 +56,7 @@ export default function GalleryManagement() {
         fetchPosts();
     }, [page, visibility, status]);
 
-    // Let's separate "Search Trigger"
+    // 검색 트리거는 분리해서 처리
     const handleSearch = () => {
         setPage(0);
         fetchPosts();
@@ -66,7 +66,7 @@ export default function GalleryManagement() {
         if (e.key === 'Enter') handleSearch();
     };
 
-    // Actions
+    // 액션
     const handleToggleVisibility = async (post: GalleryPost) => {
         const action = post.visibility === "PUBLIC" ? "hide" : "unhide";
         const confirmMsg = action === "hide" ? t.admin.gallery.confirm.hide : t.admin.gallery.confirm.unhide;
@@ -76,7 +76,7 @@ export default function GalleryManagement() {
         try {
             const res = await authFetch(`/api/admin/gallery/${post.id}/${action}`, { method: "POST" });
             if (res.ok) {
-                fetchPosts(); // Refresh
+                fetchPosts(); // 목록 새로고침
             }
         } catch (e) {
             alert("Error");
@@ -115,7 +115,7 @@ export default function GalleryManagement() {
 
     return (
         <div className="space-y-6">
-            {/* Header / Filters */}
+            {/* 헤더 / 필터 */}
             <div className="flex flex-col md:flex-row gap-4 justify-between items-end md:items-center bg-white p-4 rounded-xl shadow-sm border border-gray-200">
                 <div className="flex gap-2 w-full md:w-auto">
                     <select
@@ -173,7 +173,7 @@ export default function GalleryManagement() {
                 />
             </div>
 
-            {/* Edit Modal */}
+            {/* 수정 모달 */}
             {showEditModal && editingPost && (
                 <EditGalleryModal
                     isOpen={showEditModal}

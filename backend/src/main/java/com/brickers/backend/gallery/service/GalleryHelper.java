@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 /**
- * 🛠️ GalleryHelper
+ * 🛠️ 갤러리 헬퍼
  * 
  * 갤러리 서비스에서 사용하는 공통 검증 및 유틸리티 로직을 전담합니다.
  */

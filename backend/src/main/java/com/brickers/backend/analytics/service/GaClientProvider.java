@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 🔌 GaClientProvider
+ * 🔌 GA 클라이언트 제공자
  *
  * 구글 서버와의 '연결'만을 전담하는 유틸리티 클래스입니다.
  * application.yml 에 있는 자격증명(credentials)을 가져와서
@@ -38,7 +38,7 @@ public class GaClientProvider {
     @PostConstruct
     public void init() throws IOException {
         if (credentialsJson == null || credentialsJson.isEmpty()) {
-            log.warn("GA4 credentials not found. Analytics features will be disabled.");
+            log.warn("GA4 자격증명을 찾을 수 없습니다. 애널리틱스 기능이 비활성화됩니다.");
             return;
         }
 
@@ -50,6 +50,6 @@ public class GaClientProvider {
                 .build();
 
         this.analyticsDataClient = BetaAnalyticsDataClient.create(settings);
-        log.info("GA4 Analytics Data Client initialized in GaClientProvider.");
+        log.info("GaClientProvider에서 GA4 Analytics Data Client 초기화 완료");
     }
 }

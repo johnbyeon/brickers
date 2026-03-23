@@ -52,7 +52,7 @@ export default function ProductIntelligenceDashboard() {
 
     return (
         <div className="space-y-8">
-            {/* 1. Key Performance Highlights */}
+            {/* 1. 핵심 성능 하이라이트 */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <KPICard title="Engine Stability" value={`${(data.quality.avgStability * 100).toFixed(1)}%`} desc="Average Physics Score" color="#10ac84" />
                 <KPICard title="Avg Complexity" value={`${data.quality.avgBrickCount.toFixed(0)} Bricks`} desc="Model Density" color="#ff9f43" />
@@ -61,7 +61,7 @@ export default function ProductIntelligenceDashboard() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* 2. Conversion Funnel */}
+                {/* 2. 전환 퍼널 */}
                 <div className="bg-white p-8 rounded-[32px] border-2 border-black shadow-sm">
                     <h3 className="text-xl font-black mb-6">User Conversion Funnel</h3>
                     <div className="h-[300px] w-full">
@@ -80,7 +80,7 @@ export default function ProductIntelligenceDashboard() {
                     </div>
                 </div>
 
-                {/* 3. UX Friction Analysis (Exit Points) */}
+                {/* 3. UX 이탈 지점 분석 */}
                 <div className="bg-white p-8 rounded-[32px] border-2 border-black shadow-sm">
                     <h3 className="text-xl font-black mb-6">Friction Points (Dropped Users)</h3>
                     <div className="h-[300px] w-full">

@@ -60,7 +60,7 @@ public class SecurityConfig {
                                                 // OAuth2 시작/콜백
                                                 .requestMatchers("/auth/**").permitAll()
 
-                                                // ✅ [New] System & Public APIs
+                                                // ✅ 신규 시스템 및 공개 API
                                                 .requestMatchers("/api/health", "/api/config/public", "/api/errors")
                                                 .permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/gallery/tags").permitAll()
@@ -69,7 +69,7 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/api/kids/render").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/kids/rendered/**").permitAll()
 
-                                                // Chatbot 공개
+                                                // 챗봇 공개
                                                 .requestMatchers("/api/chat/**").permitAll()
 
                                                 // -------------------------------
@@ -83,12 +83,12 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/auth/refresh", "/api/auth/logout",
                                                                 "/api/auth/mobile/**")
                                                 .permitAll()
-                                                // 토큰 상태 확인 (공개 - 토큰 없어도 확인 가능)
+                                                // 토큰 상태 확인(공개 - 토큰이 없어도 확인 가능)
                                                 .requestMatchers(HttpMethod.GET, "/api/auth/status").permitAll()
 
                                                 // 로그인 이력 (인증 필요)
                                                 .requestMatchers(HttpMethod.GET, "/api/auth/logins").authenticated()
-                                                // ✅ [보안 강화] Actuator는 관리자만 접근 가능
+                                                // ✅ 보안 강화: Actuator는 관리자만 접근 가능
                                                 .requestMatchers("/actuator/**").hasRole("ADMIN")
 
                                                 // -------------------------------
@@ -132,7 +132,7 @@ public class SecurityConfig {
                                                                 "/api/gallery/*", "/api/gallery/*/comments")
                                                 .permitAll()
 
-                                                // ✅ Upload API (테스트용 공개)
+                                                // ✅ 업로드 API(테스트용 공개)
                                                 .requestMatchers(HttpMethod.POST, "/api/uploads/**").permitAll()
 
                                                 // ✅ 업로드된 파일 서빙 및 AI 생성 결과물 공개 (로컬 프록시 포함)
@@ -164,7 +164,7 @@ public class SecurityConfig {
                                                 // ✅ preflight는 무조건 통과 (JWT 필터/시큐리티에서 401 막기)
                                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                                                // ✅ Kids API 공개 (네 실제 매핑 경로에 맞춰 추가)
+                                                // ✅ Kids API 공개(실제 매핑 경로에 맞춰 추가)
                                                 .requestMatchers("/api/v1/kids/**").permitAll()
                                                 .requestMatchers("/api/kids/**").permitAll()
 
@@ -183,7 +183,7 @@ public class SecurityConfig {
                                                 // 요금제 목록 및 웹훅은 공개
                                                 .requestMatchers(HttpMethod.GET, "/api/billing/plans").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/api/billing/webhook").permitAll()
-                                                // 테스트용 (개발 환경에서만 - 배포 시 제거)
+                                                // 테스트용(개발 환경에서만 - 배포 시 제거)
                                                 .requestMatchers("/api/billing/test/**").permitAll()
                                                 .requestMatchers("/api/billing/**").authenticated()
 
@@ -225,7 +225,7 @@ public class SecurityConfig {
                 // "X-Requested-With"));
                 // config.setExposedHeaders(List.of("Location"));
 
-                // ✅ 보안 권장: 허용된 헤더를 명시적으로 제한
+                // ✅ 보안 권장: 허용 헤더를 명시적으로 제한
                 config.setAllowedHeaders(List.of("*"
                 // "Authorization",
                 // "Cache-Control",

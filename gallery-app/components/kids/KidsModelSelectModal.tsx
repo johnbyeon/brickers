@@ -108,7 +108,7 @@ export default function KidsModelSelectModal({ open, onClose, onSelect, items }:
             return;
         }
 
-        // FREE 유저 차단 - UpgradeModal 표시
+        // FREE 사용자는 차단하고 UpgradeModal 표시
         if (!isPro) {
             setShowUpgrade(true);
             return;

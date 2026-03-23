@@ -28,11 +28,11 @@ public interface PaymentOrderRepository extends MongoRepository<PaymentOrder, St
     // 유저의 특정 상태 결제 내역
     Page<PaymentOrder> findByUserIdAndStatus(String userId, PaymentStatus status, Pageable pageable);
 
-    // [New] 매출 통계용 (기간별 결제 완료 건)
+    // 신규: 매출 통계용(기간별 결제 완료 건)
     List<PaymentOrder> findByStatusAndPaidAtBetween(PaymentStatus status, java.time.LocalDateTime start,
             LocalDateTime end);
 
-    // [New] 상태별 결제 내역 조회 (통계용)
+    // 신규: 상태별 결제 내역 조회(통계용)
     List<PaymentOrder> findByStatus(PaymentStatus status);
 
     // 상태별 결제 내역 페이징 조회 (관리자 환불 관리용)

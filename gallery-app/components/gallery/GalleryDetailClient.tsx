@@ -27,32 +27,32 @@ export default function GalleryDetailClient({ item }: Props) {
     const router = useRouter();
     const { user, isAuthenticated, authFetch } = useAuth();
 
-    // Interaction State
+    // 상호작용 상태
     const [likeCount, setLikeCount] = useState(item.likeCount || 0);
     const [commentCount, setCommentCount] = useState(item.commentCount || 0);
     const [isLiked, setIsLiked] = useState(item.myReaction === 'LIKE');
     const [isBookmarked, setIsBookmarked] = useState(item.bookmarked || false);
 
-    // Comments State
+    // 댓글 상태
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentInput, setCommentInput] = useState('');
     const [commentLoading, setCommentLoading] = useState(false);
 
-    // Toast State
+    // 토스트 상태
     const [showToast, setShowToast] = useState(false);
 
-    // View State
+    // 뷰 상태
     const [activeTab, setActiveTab] = useState<'LDR' | 'GLB' | 'IMG'>('IMG');
 
-    // Screenshot check
+    // 스크린샷 존재 여부 확인
     const hasScreenshots = item.screenshotUrls && Object.keys(item.screenshotUrls).length > 0;
 
-    // Recommendations State
+    // 추천 목록 상태
     const [recommendations, setRecommendations] = useState<GalleryItem[]>([]);
     const displayedBrickCount = item.parts ?? item.brickCount;
 
     useEffect(() => {
-        // Function to fetch comments
+        // 댓글 조회 함수
         const fetchComments = async () => {
             try {
                 const res = await fetch(`/api/gallery/${item.id}/comments?page=0&size=100`);
@@ -63,10 +63,10 @@ export default function GalleryDetailClient({ item }: Props) {
             } catch (error) { console.error("[Comments] Fetch error:", error); }
         };
 
-        // Initial fetch
+        // 초기 조회
         fetchComments();
 
-        // Fetch detail for latest like state
+        // 최신 좋아요 상태를 반영하기 위해 상세 조회
         const fetchDetail = async () => {
             try {
                 const res = await authFetch(`/api/gallery/${item.id}`);
@@ -81,7 +81,7 @@ export default function GalleryDetailClient({ item }: Props) {
         };
         fetchDetail();
 
-        // Fetch recommendations (latest items)
+        // 추천 목록 조회(최신 항목 기준)
         const fetchRecommendations = async () => {
             try {
                 const res = await fetch(`/api/gallery?page=0&size=12&sort=latest`);
@@ -155,7 +155,7 @@ export default function GalleryDetailClient({ item }: Props) {
             if (res.ok) {
                 const newComment = await res.json();
 
-                // Recursive update function to find parent and append child
+                // 부모 댓글을 찾아 자식 댓글을 추가하는 재귀 업데이트 함수
                 const updateCommentsRecursive = (list: Comment[]): Comment[] => {
                     return list.map(c => {
                         if (c.id === parentId) {
@@ -189,16 +189,16 @@ export default function GalleryDetailClient({ item }: Props) {
         }
     };
 
-    // [New] Comment Delete Handler
+    // 댓글 삭제 핸들러
     const handleCommentDelete = async (commentId: string) => {
-        // Optimistic UI update or wait for server? Wait for server is safer.
+        // 낙관적 UI 업데이트 대신 서버 응답 후 반영하는 편이 안전함
         try {
             const res = await authFetch(`/api/gallery/${item.id}/comments/${commentId}`, {
                 method: 'DELETE'
             });
 
             if (res.ok) {
-                // Remove from state
+                // 상태에서 제거
                 const removeCommentRecursive = (list: Comment[]): Comment[] => {
                     return list.filter(c => c.id !== commentId)
                         .map(c => ({
@@ -235,7 +235,7 @@ export default function GalleryDetailClient({ item }: Props) {
 
     return (
         <div className="gallery-layout w-full max-w-[1440px] mx-auto my-6 flex h-[calc(100vh-160px)] gap-3 px-4 relative z-50">
-            {/* 1. Left Sidebar - View Modes */}
+            {/* 1. 왼쪽 사이드바 - 보기 모드 */}
             <div className="w-64 bg-[#1a1a1a] text-white rounded-3xl overflow-hidden flex flex-col py-6 shrink-0 relative z-20 shadow-2xl">
                 <h2 className="text-xl font-bold mb-6 px-8 tracking-wider">BRICKERS</h2>
 

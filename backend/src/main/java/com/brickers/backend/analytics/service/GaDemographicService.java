@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 📊 GaDemographicService
- * 
- * 카테고리별 성공률, 연령대 분포 등 심층 통계 및 인사이트를 담당합니다.
+ * 카테고리별 성공률, 연령대 분포 등 심층 통계와 인사이트를 담당합니다.
  */
 @Slf4j
 @Service
@@ -44,7 +42,7 @@ public class GaDemographicService extends GaBaseService {
                         Long.parseLong(row.getMetricValues(0).getValue())));
             }
         } catch (Exception e) {
-            log.warn("Failed to fetch Generation Trend: {}", e.getMessage());
+            log.warn("생성 추세 조회 실패: {}", e.getMessage());
         }
         return result;
     }
@@ -79,7 +77,7 @@ public class GaDemographicService extends GaBaseService {
             }
             map.forEach((k, v) -> stats.add(new DeepInsightResponse.CategoryStat(k, v[0], v[1])));
         } catch (Exception e) {
-            log.warn("Failed to fetch Category Stats : {}", e.getMessage());
+            log.warn("카테고리 통계 조회 실패: {}", e.getMessage());
         }
         return stats;
     }
@@ -101,7 +99,7 @@ public class GaDemographicService extends GaBaseService {
                         new DeepInsightResponse.AgeStat(age, (int) Long.parseLong(row.getMetricValues(0).getValue())));
             }
         } catch (Exception e) {
-            log.warn("Failed to fetch Age Stats : {}", e.getMessage());
+            log.warn("연령 통계 조회 실패: {}", e.getMessage());
         }
         return stats;
     }

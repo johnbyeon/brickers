@@ -5,9 +5,7 @@ import com.brickers.backend.payment.entity.PaymentOrder;
 import org.springframework.stereotype.Component;
 
 /**
- * 🗺️ PaymentMapper
- * 
- * 결제 관련 엔티티와 DTO 간의 변환을 담당합니다.
+ * 결제 관련 엔티티와 DTO 사이의 변환을 담당합니다.
  */
 @Component
 public class PaymentMapper {

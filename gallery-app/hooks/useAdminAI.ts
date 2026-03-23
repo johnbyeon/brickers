@@ -10,7 +10,7 @@ export interface AdminAIState {
     deepAnomalies: any[];
     deepActions: any[];
     deepDiagnosis: any;
-    moderationResults: any[]; // [NEW] 자율 조치 내역
+    moderationResults: any[]; // 신규: 자율 조치 내역
     lastDeepAnalysisTime: string | null;
 }
 
@@ -30,7 +30,7 @@ export function useAdminAI(activeTab: string) {
 
     const [autoAnalyzeDone, setAutoAnalyzeDone] = useState(false);
 
-    // [NEW] 기존 리포트 가져오기 (보다 안전한 버전)
+    // 신규: 기존 리포트 가져오기(보다 안전한 버전)
     const handleFetchReport = useCallback(async (days: number = 7) => {
         try {
             const data = await getAiAnalyticsReport(days);
@@ -38,12 +38,12 @@ export function useAdminAI(activeTab: string) {
                 setState(prev => ({
                     ...prev,
                     deepReport: data.report,
-                    lastDeepAnalysisTime: "Saved Report",
+                    lastDeepAnalysisTime: "저장된 리포트",
                 }));
                 return true;
             }
         } catch (e: any) {
-            console.error("[useAdminAI] Failed to fetch existing report:", e);
+            console.error("[useAdminAI] 기존 리포트 조회 실패:", e);
         }
         return false;
     }, []);
@@ -78,7 +78,7 @@ export function useAdminAI(activeTab: string) {
                 const err = await res.json().catch(() => null);
                 setState(prev => ({
                     ...prev,
-                    deepError: err?.details || err?.error || `Error ${res.status}`
+                    deepError: err?.details || err?.error || `오류 ${res.status}`
                 }));
             }
         } catch (e: any) {
@@ -93,7 +93,7 @@ export function useAdminAI(activeTab: string) {
 
 
     const handleRestore = useCallback(async (targetType: string, targetId: string) => {
-        if (!confirm(`Are you sure you want to restore this ${targetType}?`)) return;
+        if (!confirm(`${targetType} 항목을 정말 복구하시겠습니까?`)) return;
 
         try {
             const res = await authFetch("/api/admin/moderation/restore", {
@@ -101,7 +101,7 @@ export function useAdminAI(activeTab: string) {
                 body: JSON.stringify({ type: targetType, targetId })
             });
             if (res.ok) {
-                alert("Restored successfully!");
+                alert("정상적으로 복구되었습니다.");
                 // 로컬 상태에서 조치 상태 업데이트
                 setState(prev => ({
                     ...prev,
@@ -110,15 +110,15 @@ export function useAdminAI(activeTab: string) {
                     )
                 }));
             } else {
-                alert("Failed to restore.");
+                alert("복구에 실패했습니다.");
             }
         } catch (e) {
             console.error(e);
-            alert("Error occurred during restore.");
+            alert("복구 중 오류가 발생했습니다.");
         }
     }, [authFetch]);
 
-    // [NEW] Query Analytics State
+    // 신규: 질의형 분석 상태
     const [appendedContent, setAppendedContent] = useState<string>("");
     const [isQuerying, setIsQuerying] = useState(false);
 
@@ -140,7 +140,7 @@ export function useAdminAI(activeTab: string) {
                 alert("AI 응답을 받아오지 못했습니다.");
             }
         } catch (error) {
-            console.error("Query failed:", error);
+            console.error("질의 처리 실패:", error);
             alert("분석 요청 중 오류가 발생했습니다.");
         } finally {
             setIsQuerying(false);
@@ -153,15 +153,15 @@ export function useAdminAI(activeTab: string) {
 
     useEffect(() => {
         if (activeTab === "dashboard" && !autoAnalyzeDone && !state.deepAnalyzing) {
-            // [REMOVED] 자동 조회 로직 제거 - 분석 시작 버튼으로만 동작하게 함
+            // 제거됨: 자동 조회 로직은 쓰지 않고 분석 시작 버튼으로만 동작
             setAutoAnalyzeDone(true);
         }
 
         let interval: NodeJS.Timeout | null = null;
-        if (activeTab === "dashboard" && state.deepReport) { // [FIX] 리포트가 있을 때만 주기적 갱신 시작
+        if (activeTab === "dashboard" && state.deepReport) { // 수정: 리포트가 있을 때만 주기적 갱신 시작
             interval = setInterval(() => {
                 if (!state.deepAnalyzing) {
-                    console.log("[AI Analyst] Periodic auto-refreshing...");
+                    console.log("[AI Analyst] 주기 갱신 실행...");
                     handleDeepAnalyzeRef.current();
                 }
             }, 300000);
@@ -174,7 +174,7 @@ export function useAdminAI(activeTab: string) {
 
     return {
         ...state,
-        deepReport: state.deepReport ? state.deepReport + appendedContent : null, // ✅ 덧붙여서 반환
+        deepReport: state.deepReport ? state.deepReport + appendedContent : null, // ✅ 이어붙인 내용까지 함께 반환
         isQuerying,
         handleDeepAnalyze,
         handleRestore,

@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 🏃 GaActivityService
- * 
- * 인기 페이지, 태그, 헤비 유저 등 사용자의 구체적인 활동 데이터를 담당합니다.
+ * 인기 페이지, 태그, 핵심 사용자 등 구체적인 활동 데이터를 담당합니다.
  */
 @Slf4j
 @Service

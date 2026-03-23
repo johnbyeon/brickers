@@ -30,7 +30,7 @@ public class BillingService {
     private final MembershipService membershipService;
     private final GooglePlayValidator googlePlayValidator;
 
-    // 신규 분리된 서비스들
+    // 신규로 분리된 서비스들
     private final BillingMapper billingMapper;
     private final SubscriptionManager subscriptionManager;
     private final GooglePlayWebhookService webhookService;
@@ -73,12 +73,12 @@ public class BillingService {
     public SubscriptionResponse verify(Authentication auth, BillingVerifyRequest req) {
         String userId = (String) auth.getPrincipal();
 
-        // 1. 중복 검증 방계
+        // 1. 중복 검증 방지
         if (subscriptionManager.getByPurchaseToken(req.getPurchaseToken()).isPresent()) {
             throw new IllegalStateException("이미 처리된 구매입니다.");
         }
 
-        // 2. Google Play 검증 (Mock)
+        // 2. Google Play 검증(Mock)
         GooglePlayValidator.GooglePurchaseInfo purchaseInfo = googlePlayValidator.validateSubscription(
                 req.getPurchaseToken(), req.getProductId());
 
@@ -105,7 +105,7 @@ public class BillingService {
 
         subscriptionManager.saveSubscription(subscription);
 
-        // 5. 멤버십 업그레이드 (MembershipService 위임)
+        // 5. 멤버십 업그레이드(MembershipService 위임)
         membershipService.upgradeToPro(userId);
 
         return billingMapper.toSubscriptionResponse(subscription);

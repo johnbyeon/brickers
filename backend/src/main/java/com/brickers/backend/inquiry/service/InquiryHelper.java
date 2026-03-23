@@ -9,7 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 /**
- * 🛠️ InquiryHelper
+ * 🛠️ 문의 헬퍼
  * 
  * Inquiry 서비스 관련 공통 검증 및 유틸리티 로직을 담당합니다.
  */

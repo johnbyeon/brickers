@@ -87,7 +87,7 @@ export default function CommentsTab() {
                         )}
                     </tbody>
                 </table>
-                {/* Pagination (Simple) */}
+                {/* 페이지네이션(단순형) */}
                 <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
                     <button
                         disabled={commentPage === 0}

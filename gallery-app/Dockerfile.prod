@@ -1,11 +1,11 @@
 # =============================================================================
-# Unified Frontend Dockerfile - Next.js + Nginx
+# 통합 프론트엔드 Dockerfile - Next.js + Nginx
 # =============================================================================
 
-# 1. Base
+# 1. 베이스
 FROM node:20-alpine AS base
 
-# 2. Dependencies
+# 2. 의존성
 FROM base AS deps
 WORKDIR /app
 
@@ -13,7 +13,7 @@ WORKDIR /app
 COPY gallery-app/package.json gallery-app/package-lock.json* ./
 RUN npm ci --legacy-peer-deps
 
-# 3. Builder
+# 3. 빌더
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
@@ -33,7 +33,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npm run build
 
-# 4. Production Runner
+# 4. 프로덕션 러너
 FROM node:20-alpine AS runner
 WORKDIR /app
 
@@ -55,7 +55,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # =============================================================================
-# 5. Final Stage with Nginx + Node.js
+# 5. Nginx + Node.js를 포함한 최종 스테이지
 # =============================================================================
 FROM nginx:alpine AS final
 

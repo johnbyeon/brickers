@@ -1,4 +1,4 @@
-// Gallery API - 갤러리 관련 함수 및 타입
+// 갤러리 API - 갤러리 관련 함수 및 타입
 import { request, API_BASE } from './apiClient';
 
 // 갤러리 응답 타입
@@ -16,10 +16,10 @@ export interface GalleryItem {
     glbUrl?: string;
     parts?: number;        // 최종 브릭 개수
     screenshotUrls?: Record<string, string>;  // 6면 스크린샷 URL 맵
-    isPro?: boolean;       // PRO 모드 여부
+    isPro?: boolean;       // 프로 모드 여부
     visibility: 'PUBLIC' | 'PRIVATE';
-    imageCategory?: string; // [NEW]
-    backgroundUrl?: string; // [NEW]
+    imageCategory?: string; // 신규
+    backgroundUrl?: string; // 신규
     createdAt: string;
     updatedAt: string;
     likeCount: number;
@@ -31,7 +31,7 @@ export interface GalleryItem {
 
 // 갤러리 등록 요청 타입 (백엔드 스펙)
 export interface GalleryCreateRequest {
-    jobId?: string;  // 원본 Job ID (중복 등록 방지용)
+    jobId?: string;  // 원본 작업 ID(중복 등록 방지용)
     title: string;
     content?: string;
     tags?: string[];
@@ -42,8 +42,8 @@ export interface GalleryCreateRequest {
     parts?: number;        // 최종 브릭 개수
     screenshotUrls?: Record<string, string>;  // 6면 스크린샷 URL 맵
     visibility?: 'PUBLIC' | 'PRIVATE';
-    imageCategory?: string; // [NEW]
-    backgroundUrl?: string; // [NEW]
+    imageCategory?: string; // 신규
+    backgroundUrl?: string; // 신규
 }
 
 // 갤러리 등록 응답 타입

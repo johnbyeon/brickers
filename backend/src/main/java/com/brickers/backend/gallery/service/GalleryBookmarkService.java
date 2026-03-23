@@ -89,7 +89,7 @@ public class GalleryBookmarkService {
                     if (p == null || p.isDeleted())
                         return null;
 
-                    // PRIVATE는 작성자만 조회 가능
+                    // 비공개 게시글은 작성자만 조회 가능
                     if (p.getVisibility() == Visibility.PRIVATE && !p.getAuthorId().equals(me.getId()))
                         return null;
 
@@ -100,7 +100,7 @@ public class GalleryBookmarkService {
                             .authorNickname(p.getAuthorNickname())
                             .likeCount((int) p.getLikeCount())
                             .viewCount((int) p.getViewCount())
-                            .brickCount(0) // GalleryPostEntity doesn't have brickCount yet
+                            .brickCount(0) // 아직 GalleryPostEntity에는 brickCount가 없습니다.
                             .tags(p.getTags())
                             .bookmarkedAt(b.getCreatedAt())
                             .createdAt(p.getCreatedAt())
@@ -110,7 +110,7 @@ public class GalleryBookmarkService {
                 .filter(Objects::nonNull)
                 .toList();
 
-        // ✅ 필터링으로 items 개수가 줄 수 있으니 total을 items.size로 맞추는게 UI에 더 직관적
+        // ✅ 필터링으로 items 개수가 줄 수 있어도 total은 원본 전체 건수를 유지합니다.
         return new PageImpl<>(items, pageable, bookmarks.getTotalElements());
     }
 }

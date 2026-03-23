@@ -78,14 +78,14 @@ function LdrModel({
                 removeNullChildren(g);
                 g.rotation.x = Math.PI;
 
-                // Hide lines (white borders)
+                // 선 숨기기(흰색 테두리)
                 g.traverse((child: any) => {
                     if (child.isLineSegments) {
                         child.visible = false;
                     }
                 });
 
-                // Clone materials for restoration
+                // 복원용 머티리얼 복제
                 g.traverse((child: any) => {
                     if (child.isMesh) {
                         originalMaterialsRef.current.set(child.uuid, Array.isArray(child.material) ? child.material.slice() : child.material);
@@ -106,11 +106,11 @@ function LdrModel({
         };
     }, [url, ldconfigUrl, loader, onLoaded, onError]);
 
-    // Step Mode Logic: Group by startingBuildingStep & apply transparency
+    // 스텝 모드 로직: startingBuildingStep 기준으로 그룹화하고 투명도 적용
     useLayoutEffect(() => {
         if (!group) return;
 
-        // If not in stepMode, ensure full visibility
+        // stepMode가 아니면 전체가 보이도록 보장
         if (!stepMode || currentStep === undefined) {
             group.traverse((child: any) => {
                 if (child.isMesh) {
@@ -120,12 +120,12 @@ function LdrModel({
                     }
                 }
             });
-            // Also ensure group children are visible
+            // 그룹 자식들도 보이도록 보장
             group.children.forEach(child => { child.visible = true; });
             return;
         }
 
-        // Group children by startingBuildingStep
+        // 자식들을 startingBuildingStep 기준으로 그룹화
         const stepGroups: THREE.Object3D[][] = [[]];
         group.children.forEach((child) => {
             if ((child as any).userData?.startingBuildingStep && stepGroups[stepGroups.length - 1].length > 0) {
@@ -134,10 +134,10 @@ function LdrModel({
             stepGroups[stepGroups.length - 1].push(child);
         });
 
-        const currentStepIndex = currentStep - 1; // 1-based to 0-based
+        const currentStepIndex = currentStep - 1; // 1부터 시작하는 인덱스를 0부터 시작하도록 변환
         const activeStepsCount = stepGroups.length;
 
-        // Identify children in current step vs previous steps
+        // 현재 스텝 자식과 이전 스텝 자식을 식별
         const currentStepChildren = new Set<THREE.Object3D>(stepGroups[currentStepIndex] || []);
         const previousStepChildren = new Set<THREE.Object3D>();
         for (let i = 0; i < currentStepIndex; i++) {
@@ -145,15 +145,15 @@ function LdrModel({
         }
 
         group.traverse((child) => {
-            // Find root child (direct descendant of group)
+            // 루트 자식(group의 직계 자식) 찾기
             let rootChild = child;
             while (rootChild.parent && rootChild.parent !== group) {
                 rootChild = rootChild.parent;
             }
 
-            if (rootChild.parent !== group) return; // Should not happen
+            if (rootChild.parent !== group) return; // 발생하면 안 되는 경우
 
-            // Determine visibility
+            // 가시성 결정
             const isCurrent = currentStepChildren.has(rootChild);
             const isPrevious = previousStepChildren.has(rootChild);
 
@@ -164,7 +164,7 @@ function LdrModel({
                 }
             } else if (isPrevious) {
                 child.visible = true;
-                // Make transparent
+                // 투명하게 처리
                 if ((child as any).isMesh) {
                     const originalMat = originalMaterialsRef.current.get(child.uuid);
                     if (originalMat) {
@@ -176,30 +176,27 @@ function LdrModel({
                     }
                 }
             } else {
-                // Future step
-                // Hide purely
+                // 미래 스텝
+                // 완전히 숨김
                 child.visible = false;
-                // If deep child, we might need to recursively hide, but traversing handles it if we hide rootChild?
-                // The loop iterates ALL descendants.
-                // If rootChild is hidden, descendants are hidden.
-                // But we are setting .visible on descendants?
-                // Wait, traverse hits everything.
-                // If I set rootChild.visible = false, do I need to set children?
-                // Three.js respects hierarchy.
+                // 깊은 자식은 재귀적으로 숨겨야 할 수 있지만, 루트 자식을 숨기면 traverse로 처리됩니다.
+                // 루프는 모든 하위 요소를 순회합니다.
+                // 루트 자식이 숨겨지면 하위 자식도 숨겨집니다.
+                // Three.js는 계층 구조를 반영합니다.
             }
         });
 
-        // Optimization: just set visibility on group.children (top level)
+        // 최적화: group.children(최상위)에만 가시성 적용
         group.children.forEach(child => {
             const isCurrent = currentStepChildren.has(child);
             const isPrevious = previousStepChildren.has(child);
             child.visible = isCurrent || isPrevious;
         });
 
-        // Apply materials only to visible meshes
+        // 보이는 메시에게만 머티리얼 적용
         group.traverse((child) => {
             if (!child.visible) return;
-            // Check if it belongs to current or previous
+            // 현재 스텝 또는 이전 스텝 소속인지 확인
             let root = child;
             while (root.parent && root.parent !== group) root = root.parent;
 

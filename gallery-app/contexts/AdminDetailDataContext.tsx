@@ -43,7 +43,7 @@ export interface ProductIntelligenceResponse {
     exits: Array<{ step: string; count: number }>;
 }
 
-// New types introduced by the diff for AdminDetailContextType
+// diff로 인해 AdminDetailContextType에 추가된 새 타입
 interface DailyUserData { date: string; count: number; }
 interface GenerationTrendData { date: string; count: number; }
 
@@ -96,7 +96,7 @@ export function AdminDetailDataProvider({ children }: { children: React.ReactNod
 
             const [pkgRes, genRes, perfRes, heavyRes, deepRes, prodIntelRes] = results;
 
-            // Helper: 안전하게 JSON 파싱
+            // 헬퍼: JSON을 안전하게 파싱
             const safeJson = async (res: PromiseSettledResult<Response>) => {
                 if (res.status === 'fulfilled' && res.value.ok) {
                     return await res.value.json();
@@ -106,7 +106,7 @@ export function AdminDetailDataProvider({ children }: { children: React.ReactNod
 
             const summaryPkg = await safeJson(pkgRes);
             if (summaryPkg) {
-                if (summaryPkg.summary) setDailyUsers([{ date: 'Summary', count: 0 }]); // Placeholder or actual mapping if needed
+                if (summaryPkg.summary) setDailyUsers([{ date: 'Summary', count: 0 }]); // 필요하면 실제 매핑으로 교체할 임시값
                 if (Array.isArray(summaryPkg.dailyUsers)) setDailyUsers(summaryPkg.dailyUsers);
                 if (Array.isArray(summaryPkg.topTags)) setTopTags(summaryPkg.topTags);
             }
@@ -149,7 +149,7 @@ export function AdminDetailDataProvider({ children }: { children: React.ReactNod
 
     const refetch = useCallback(async () => {
         setFetched(false);
-        await fetchAllData(); // Ensure refetch actually triggers a new fetch
+        await fetchAllData(); // refetch가 실제 새 요청을 발생시키도록 보장
     }, [fetchAllData]);
 
     const value = useMemo(() => ({

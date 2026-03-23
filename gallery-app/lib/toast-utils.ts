@@ -1,5 +1,5 @@
 /**
- * Windows Toast (Browser Notification) Utility
+ * Windows 토스트(브라우저 알림) 유틸리티
  */
 
 export async function requestNotificationPermission() {
@@ -38,7 +38,7 @@ export function showToastNotification(title: string, body: string, icon?: string
             };
         }
 
-        // cleanup - 닫힐 때 핸들러 제거 (메모리 누수 방지)
+        // 정리 작업: 닫힐 때 핸들러 제거(메모리 누수 방지)
         notification.onclose = () => {
             notification.onclick = null;
             notification.onclose = null;

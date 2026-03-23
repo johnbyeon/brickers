@@ -33,7 +33,7 @@ export const usePerformanceStore = create<PerformanceStore>((set, get) => ({
   setLoadingPhase: (phase) => {
     const paused = phase === 'loading-3d';
     set({ loadingPhase: phase, isBackgroundPaused: paused });
-    // Reset low FPS tracking when phase changes
+    // 단계가 바뀌면 저FPS 추적 초기화
     if (!paused) {
       set({ _lowFpsStart: null });
     }
@@ -51,7 +51,7 @@ export const usePerformanceStore = create<PerformanceStore>((set, get) => ({
       if (!lowStart) {
         lowStart = Date.now();
       } else if (Date.now() - lowStart > 5000) {
-        // 5 seconds of sub-15 FPS → pause background
+        // 15FPS 미만 상태가 5초 지속되면 배경 일시정지
         paused = true;
       }
     } else {

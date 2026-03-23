@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 /**
- * 🛠️ KidsJobResultService
+ * 🛠️ Kids 작업 결과 서비스
  * AI 서버나 SQS로부터 수신된 원시 데이터(Map, SqsMessage)를 해석하고,
  * 엔티티에 반영하기 적절한 형태로 가공(Parsing, 디코딩, 비용 계산)하는 기능을 전담합니다.
  */
@@ -106,7 +106,7 @@ public class KidsJobResultService {
                 job.setFinalTarget(result.getFinalTarget());
             if (result.getTags() != null)
                 job.setSuggestedTags(result.getTags());
-            // [FIX] backgroundUrl 보존: SQS RESULT에 비어있으면 기존 값(Screenshot Server PATCH로 저장됨)
+            // 수정: backgroundUrl 보존. SQS RESULT에 값이 없으면 기존 값(Screenshot Server PATCH 저장값) 유지
             // 유지
             if (result.getBackgroundUrl() != null && !result.getBackgroundUrl().isBlank()) {
                 job.setBackgroundUrl(result.getBackgroundUrl());

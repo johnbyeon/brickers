@@ -1,5 +1,5 @@
-// Barrel re-export - 기존 import 호환성 유지
-// 개별 모듈에서 모든 것을 re-export
+// 배럴 재내보내기 - 기존 import 호환성 유지
+// 개별 모듈의 항목을 모두 다시 내보냄
 export { ApiError, API_BASE, getAuthToken, getHeaders, request } from './apiClient';
 export type { GalleryItem, GalleryCreateRequest, GalleryRegisterResponse, BookmarkToggleResponse, MyBookmarkItem, ReactionToggleResponse } from './galleryApi';
 export type { ReactionType } from './galleryApi';

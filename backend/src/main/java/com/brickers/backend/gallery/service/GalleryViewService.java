@@ -27,7 +27,7 @@ public class GalleryViewService {
     private final CurrentUserService currentUserService;
     private final MongoTemplate mongoTemplate;
 
-    /** viewerKey 생성 */
+    /** 조회자 식별 키를 생성합니다. */
     public String buildViewerKey(Authentication authOrNull, HttpServletRequest request) {
         if (authOrNull != null && authOrNull.isAuthenticated()
                 && !"anonymousUser".equals(String.valueOf(authOrNull.getPrincipal()))) {
@@ -43,9 +43,9 @@ public class GalleryViewService {
     }
 
     /**
-     * ✅ MongoDB + TTL 컬렉션 기반 24h 1회 조회수 증가
+     * ✅ MongoDB + TTL 컬렉션 기반 24시간당 1회 조회수 증가
      * - (postId, viewerKey) 유니크로 중복 방지
-     * - createdAt TTL 24h로 자동 만료 → 24h 지나면 다시 증가 가능
+     * - createdAt TTL 24시간 자동 만료 → 24시간이 지나면 다시 증가 가능
      */
     public void increaseViewIfNeeded(String postId, String viewerKey) {
         LocalDateTime now = LocalDateTime.now();
@@ -56,21 +56,21 @@ public class GalleryViewService {
             throw new IllegalArgumentException("삭제된 게시글입니다.");
 
         try {
-            // ✅ insert로 명확히 “처음 본 경우만” 저장
+            // ✅ insert로 명확히 "처음 본 경우만" 저장
             viewLogRepository.insert(GalleryViewLogEntity.builder()
                     .postId(postId)
                     .viewerKey(viewerKey)
                     .createdAt(now)
                     .build());
 
-            // ✅ insert 성공했을 때만 조회수 +1
+            // ✅ insert에 성공했을 때만 조회수 +1
             mongoTemplate.updateFirst(
                     Query.query(Criteria.where("_id").is(postId).and("deleted").is(false)),
                     new Update().inc("viewCount", 1).set("updatedAt", now),
                     GalleryPostEntity.class);
 
         } catch (DuplicateKeyException e) {
-            // ✅ 24h 내 이미 본 경우 → 증가 안 함
+            // ✅ 24시간 내 이미 본 경우는 증가시키지 않음
         }
     }
 

@@ -31,7 +31,7 @@ export default function AgentTraceViewer({ jobId, onClose }: AgentTraceViewerPro
 
     const fetchTraces = async () => {
         try {
-            // Use relative path to leverage Next.js rewrites (proxies to backend)
+            // Next.js rewrite를 활용하기 위해 상대 경로 사용(백엔드로 프록시됨)
             const res = await fetch(`/api/kids/jobs/${jobId}/traces`);
             if (res.ok) {
                 const data = await res.json();
@@ -59,7 +59,7 @@ export default function AgentTraceViewer({ jobId, onClose }: AgentTraceViewerPro
     return (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-white w-full max-w-6xl h-[85vh] rounded-xl shadow-2xl flex flex-col overflow-hidden">
-                {/* Header */}
+                {/* 헤더 */}
                 <div className="p-4 border-b flex justify-between items-center bg-gray-50">
                     <div>
                         <h2 className="text-lg font-bold">Agent Trace History</h2>
@@ -70,9 +70,9 @@ export default function AgentTraceViewer({ jobId, onClose }: AgentTraceViewerPro
                     </button>
                 </div>
 
-                {/* Content */}
+                {/* 내용 */}
                 <div className="flex-1 flex overflow-hidden">
-                    {/* Left: Timeline List */}
+                    {/* 왼쪽: 타임라인 목록 */}
                     <div className="w-1/3 border-r overflow-y-auto bg-gray-50 p-2">
                         {loading ? (
                             <div className="p-4 text-center">Loading traces...</div>
@@ -108,7 +108,7 @@ export default function AgentTraceViewer({ jobId, onClose }: AgentTraceViewerPro
                         )}
                     </div>
 
-                    {/* Right: Details */}
+                    {/* 오른쪽: 상세 정보 */}
                     <div className="w-2/3 p-4 overflow-y-auto bg-white">
                         {selectedTrace ? (
                             <div className="space-y-6">

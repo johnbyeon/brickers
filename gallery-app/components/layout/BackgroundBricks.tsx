@@ -8,7 +8,7 @@ import dynamic from 'next/dynamic';
 import ThrottledDriver from "@/components/three/ThrottledDriver";
 import { usePerformanceStore } from "@/stores/performanceStore";
 
-// Random utility functions
+// 무작위 유틸리티 함수
 const randomRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
 const randomColor = () => {
@@ -16,13 +16,13 @@ const randomColor = () => {
     return colors[Math.floor(Math.random() * colors.length)];
 };
 
-// Physics constants (calibrated for 60fps baseline)
+// 물리 상수(60fps 기준으로 보정)
 const FRICTION = 0.98;
 const IMPULSE_STRENGTH = 0.15;
 const GRAVITY = 0.015;
 const FLOOR_Y = -8;
 const BOUNCE_DAMPING = 0.6;
-const TARGET_DT = 1 / 60; // 60fps baseline for delta normalization
+const TARGET_DT = 1 / 60; // delta 정규화를 위한 60fps 기준값
 
 type ShapeType = "standard" | "long" | "cylinder" | "circle";
 
@@ -37,7 +37,7 @@ type BrickProps = {
 
 type BrickSeed = Omit<BrickProps, "entryDirection"> & { id: number };
 
-// Stud geometry helpers
+// 스터드 지오메트리 헬퍼
 const Stud = ({ position, color }: { position: [number, number, number]; color: string }) => (
     <mesh position={position}>
         <cylinderGeometry args={[0.15, 0.15, 0.2, 16]} />
@@ -94,7 +94,7 @@ function Brick({
 
     const isFalling = useRef(!isFloat);
 
-    // Delta-time based physics: FPS-independent movement
+    // 델타 타임 기반 물리: FPS와 무관한 움직임
     useFrame((_, delta) => {
         if (!meshRef.current) return;
 
@@ -103,8 +103,8 @@ function Brick({
         const rot = meshRef.current.rotation;
         const angVel = angularVelocity.current;
 
-        // Normalize delta to 60fps baseline (60fps→1.0, 30fps→2.0, 15fps→4.0)
-        const dt = Math.min(delta / TARGET_DT, 4); // Clamp to prevent physics explosion
+        // delta를 60fps 기준으로 정규화(60fps→1.0, 30fps→2.0, 15fps→4.0)
+        const dt = Math.min(delta / TARGET_DT, 4); // 물리값이 폭주하지 않도록 상한 제한
 
         if (isFalling.current) {
             vel.y -= GRAVITY * dt;
@@ -260,7 +260,7 @@ function Background3DContent({
     );
 }
 
-// Ensure it's client-side only and no SSR
+// 클라이언트 전용으로만 동작하고 SSR은 하지 않음
 const Background3DDynamic = dynamic(() => Promise.resolve(Background3DContent), {
     ssr: false,
     loading: () => null
@@ -273,7 +273,7 @@ export default function BackgroundBricks() {
     const brickCount = profile?.backgroundBrickCount ?? 40;
     const fps = profile?.backgroundFps ?? 24;
 
-    // Paused or zero bricks → static white div only (no Canvas, no GPU usage)
+    // 일시정지 상태이거나 브릭 수가 0이면 정적인 흰색 div만 렌더링(Canvas/GPU 미사용)
     if (isBackgroundPaused || brickCount === 0) {
         return (
             <div

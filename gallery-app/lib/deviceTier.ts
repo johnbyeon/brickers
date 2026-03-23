@@ -14,24 +14,24 @@ export function detectDeviceTier(): DeviceProfile {
 
   let score = 0;
 
-  // hardwareConcurrency (92% browser support)
+  // hardwareConcurrency 사용(브라우저 지원율 약 92%)
   const cores = navigator.hardwareConcurrency || 4;
   if (cores >= 8) score += 3;
   else if (cores >= 4) score += 2;
   else score += 1;
 
-  // deviceMemory (70% support, undefined on Safari/Firefox)
+  // deviceMemory 사용(지원율 약 70%, Safari/Firefox에서는 undefined)
   const mem = (navigator as any).deviceMemory as number | undefined;
   if (mem !== undefined) {
     if (mem >= 8) score += 3;
     else if (mem >= 4) score += 2;
     else score += 1;
   } else {
-    // Unknown memory — assume mid
+    // 메모리 정보를 알 수 없으면 중간 등급으로 간주
     score += 2;
   }
 
-  // Mobile UA penalty
+  // 모바일 UA면 점수 감점
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   if (isMobile) score -= 1;
 

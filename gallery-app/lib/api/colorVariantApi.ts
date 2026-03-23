@@ -1,4 +1,4 @@
-// Color Variant API 서비스 - 색상 테마 변경
+// 색상 변형 API 서비스 - 색상 테마 변경
 const rawBase = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 const API_BASE = rawBase.endsWith('/') ? rawBase.slice(0, -1) : rawBase;
 
@@ -15,7 +15,7 @@ export interface ColorVariantResponse {
     themeApplied: string;
     originalColors: number;
     changedBricks: number;
-    ldrData: string; // base64 encoded LDR
+    ldrData: string; // base64로 인코딩된 LDR
 }
 
 /**
@@ -49,7 +49,7 @@ export async function applyColorVariant(
         throw new Error(errorData.message || '색상 변경 실패');
     }
 
-    // Python API returns snake_case, convert to camelCase
+    // Python API는 snake_case를 반환하므로 camelCase로 변환
     const data = await res.json();
     return {
         ok: data.ok,

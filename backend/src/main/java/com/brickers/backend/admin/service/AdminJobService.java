@@ -109,7 +109,7 @@ public class AdminJobService {
             throw new IllegalStateException("Cancel is allowed only for QUEUED or RUNNING jobs");
         }
 
-        // NOTE: RUNNING인 경우 DB만 바꾸면 워커가 실제로 멈추진 않음.
+        // 참고: RUNNING 상태는 DB만 바꿔서는 워커가 실제로 멈추지 않음.
         // 추후 워커 취소 플래그/큐 취소 연동 필요.
         job.markCanceled("Admin cancelled");
         jobRepository.save(job);

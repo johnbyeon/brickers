@@ -3,8 +3,8 @@ import * as THREE from 'three';
 let _patched = false;
 
 /**
- * Monkey-patch THREE.Object3D.prototype.add to filter out null children.
- * Safe to call multiple times (idempotent).
+ * null 자식을 걸러내도록 THREE.Object3D.prototype.add를 몽키 패치합니다.
+ * 여러 번 호출해도 안전합니다(멱등성 보장).
  */
 export function patchThreeNullChildren() {
     if (_patched) return;

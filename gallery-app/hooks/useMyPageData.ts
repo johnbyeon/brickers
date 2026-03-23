@@ -56,7 +56,7 @@ export default function useMyPageData({
     const [expandedInquiryId, setExpandedInquiryId] = useState<string | null>(null);
     const [expandedReportId, setExpandedReportId] = useState<string | null>(null);
 
-    // --- Functions ---
+    // --- 함수 ---
 
     const loadJobsPage = async (page: number, replace = false) => {
         try {
@@ -111,7 +111,7 @@ export default function useMyPageData({
                 bio: editBio,
             });
             setProfile(updated);
-            setUser(updated); // Sync with global AuthContext
+            setUser(updated); // 전역 AuthContext와 동기화
             setIsEditing(false);
             alert(t.profile.alertSaved);
         } catch {
@@ -166,7 +166,7 @@ export default function useMyPageData({
         }
     };
 
-    // --- Label / Status Helpers ---
+    // --- 라벨 / 상태 헬퍼 ---
 
     const getStatusLabel = (status: MyJob["status"] | string) => {
         const statusMap: Record<string, string> = t.jobs.status || {};
@@ -208,9 +208,9 @@ export default function useMyPageData({
         }
     };
 
-    // --- Effects ---
+    // --- 이펙트 ---
 
-    // Auth check + initial data fetch
+    // 인증 확인 + 초기 데이터 조회
     useEffect(() => {
         if (isAuthLoading) return;
         if (!isAuthenticated) return;
@@ -234,13 +234,13 @@ export default function useMyPageData({
             });
     }, [language, isAuthenticated, isAuthLoading]);
 
-    // Jobs loading when activeMenu === 'jobs'
+    // activeMenu가 'jobs'일 때 작업 목록 로드
     useEffect(() => {
         if (activeMenu !== 'jobs') return;
         resetAndLoadJobs();
     }, [activeMenu, jobSort]);
 
-    // Infinite scroll observer
+    // 무한 스크롤 옵저버
     useEffect(() => {
         if (activeMenu !== 'jobs') return;
         const sentinel = jobsSentinelRef.current;

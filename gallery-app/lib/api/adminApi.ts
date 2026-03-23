@@ -1,4 +1,4 @@
-// Admin API - 관리자 관련 함수 및 타입
+// 관리자 API - 관리자 관련 함수 및 타입
 import { request, API_BASE } from './apiClient';
 
 export interface AdminStats {
@@ -13,9 +13,8 @@ export async function getAdminStats(): Promise<AdminStats> {
 }
 
 /**
- * AI 서버가 분석한 애널리틱스 리포트를 가져옵니다 (Java 브릿지 경유)
+ * AI 서버가 분석한 애널리틱스 리포트를 가져옵니다(Java 브리지 경유)
  */
 export async function getAiAnalyticsReport(days: number = 7): Promise<{ report: string; days: number }> {
     return request(`${API_BASE}/api/admin/analytics/ai/ai-report?days=${days}`);
 }
-

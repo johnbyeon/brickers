@@ -1,4 +1,4 @@
-// User API - 프로필, 작업 관리 함수 및 타입
+// 사용자 API - 프로필, 작업 관리 함수 및 타입
 import { request, API_BASE } from './apiClient';
 import type { MyBookmarkItem } from './galleryApi';
 
@@ -33,7 +33,7 @@ export interface MyJob {
     screenshotUrls?: Record<string, string>;  // 6면 스크린샷 URL 맵
     parts?: number;            // 최종 브릭 개수
     finalTarget?: number;      // 최종 해상도
-    isPro?: boolean;           // PRO 모드 여부
+    isPro?: boolean;           // 프로 모드 여부
     backgroundUrl?: string;    // 배경 이미지 URL (Nano Banana)
     hasResult: boolean;
     errorMessage: string | null;

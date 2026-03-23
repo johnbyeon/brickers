@@ -18,7 +18,7 @@ import java.util.UUID;
 
 /**
  * S3에 직접 파일을 업로드하는 StorageService 구현체
- * 배포 환경에서 사용
+ * 배포 환경에서 사용합니다.
  */
 @Slf4j
 public class S3StorageService implements StorageService {
@@ -51,7 +51,7 @@ public class S3StorageService implements StorageService {
                 ? publicBaseUrl.substring(0, publicBaseUrl.length() - 1)
                 : publicBaseUrl;
 
-        // S3 Client 생성
+        // S3 클라이언트 생성
         this.s3Client = S3Client.builder()
                 .region(Region.of(region))
                 .credentialsProvider(StaticCredentialsProvider.create(

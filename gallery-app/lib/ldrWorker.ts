@@ -7,9 +7,9 @@ self.onmessage = async (e: MessageEvent) => {
         try {
             const result = parseAndProcessSteps(text);
 
-            // Transferrable geometry data isn't easily extracted from Box3/Vector3 
-            // without custom serialization, but these objects are small enough to clone.
-            // However, stepTexts is an array of large strings.
+            // Box3/Vector3의 전송 가능한 지오메트리 데이터는
+            // 별도 직렬화 없이는 쉽게 추출되지 않지만, 이 객체들은 복제로도 충분히 작습니다.
+            // 다만 stepTexts는 큰 문자열 배열입니다.
 
             self.postMessage({
                 type: "SUCCESS",

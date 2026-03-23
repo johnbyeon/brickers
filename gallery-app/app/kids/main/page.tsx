@@ -11,7 +11,7 @@ import { KidsLdrPreviewHandle } from "@/components/kids/KidsLdrPreview";
 import { usePerformanceStore } from "@/stores/performanceStore";
 import { useBrickGeneration } from "@/hooks/useBrickGeneration";
 
-// Sub-components
+// 하위 컴포넌트
 import { GenerationLoadingView } from "./components/GenerationLoadingView";
 import { GenerationResultView } from "./components/GenerationResultView";
 import ShareModal from "@/components/kids/ShareModal";
@@ -29,7 +29,7 @@ function KidsPageContent() {
 
     useEffect(() => { perfInit(); }, [perfInit]);
 
-    // 1. Initial State & Params
+    // 1. 초기 상태 및 파라미터
     const age = (searchParams.get("age") ?? "4-5") as "4-5" | "6-7" | "8-10" | "PRO";
     const budget = useMemo(() => {
         if (age === "4-5") return 400;
@@ -43,7 +43,7 @@ function KidsPageContent() {
     const [targetPrompt, setTargetPrompt] = useState<string | null>(null);
     const [isFileLoaded, setIsFileLoaded] = useState(false);
 
-    // Initial load logic
+    // 초기 로드 처리
     useEffect(() => {
         const storedUpload = sessionStorage.getItem('pendingUpload');
         const storedPrompt = sessionStorage.getItem('pendingPrompt');
@@ -81,21 +81,21 @@ function KidsPageContent() {
         }
     }, [rawFile, targetPrompt, isFileLoaded, router]);
 
-    // 2. Business Logic Hooks
+    // 2. 비즈니스 로직 훅
     const generation = useBrickGeneration({ rawFile, targetPrompt, age, budget });
 
     const previewRef = useRef<KidsLdrPreviewHandle>(null);
 
-    // 3. UI State
+    // 3. UI 상태
     const [shareModalOpen, setShareModalOpen] = useState(false);
 
-    // Color management
+    // 색상 관리
     const [isColorModalOpen, setIsColorModalOpen] = useState(false);
     const [colorThemes, setColorThemes] = useState<ThemeInfo[]>([]);
     const [selectedTheme, setSelectedTheme] = useState<string>("");
     const [isApplyingColor, setIsApplyingColor] = useState(false);
 
-    // 4. Handlers
+    // 4. 이벤트 핸들러
     const handleShareImage = () => {
         if (!generation.ldrUrl) return;
         setShareModalOpen(true);
@@ -180,7 +180,7 @@ function KidsPageContent() {
                     </div>
                 )}
 
-                {/* 색상 변경 모달 (Modularize later if needed) */}
+                {/* 색상 변경 모달(필요하면 나중에 분리) */}
                 {isColorModalOpen && (
                     <div className={styles.colorModalOverlay} onClick={() => setIsColorModalOpen(false)}>
                         <div className={styles.colorModal} onClick={(e) => e.stopPropagation()}>

@@ -63,7 +63,7 @@ public class UploadPresignService {
 
         URL url = presigner.presignPutObject(presignReq).url();
 
-        // public/cdn url: base + "/" + key
+        // public/cdn URL: base + "/" + key
         String base = publicBaseUrl.endsWith("/") ? publicBaseUrl.substring(0, publicBaseUrl.length() - 1)
                 : publicBaseUrl;
         String publicUrl = base + "/" + key;
@@ -99,7 +99,7 @@ public class UploadPresignService {
         if ("image/avif".equals(contentType))
             return "avif";
 
-        // fallback by name
+        // 파일명 기준 대체 처리
         if (originalName != null) {
             String lower = originalName.toLowerCase();
             if (lower.endsWith(".png"))

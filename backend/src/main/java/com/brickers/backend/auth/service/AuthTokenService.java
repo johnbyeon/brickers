@@ -59,9 +59,9 @@ public class AuthTokenService {
     }
 
     /**
-     * refreshToken(쿠키) 검증 + rotation
+     * refreshToken(쿠키) 검증 + 로테이션
      * 1) 기존 refresh 폐기
-     * 2) userId 반환 (컨트롤러가 새 refresh+access 발급)
+     * 2) userId 반환(컨트롤러가 새 refresh+access 발급)
      */
     public String validateAndRotate(String refreshRaw) {
         if (refreshRaw == null || refreshRaw.isBlank())
@@ -78,7 +78,7 @@ public class AuthTokenService {
             throw new IllegalStateException("refresh expired");
         }
 
-        // ✅ rotation: 기존 refresh 폐기
+        // ✅ 로테이션: 기존 refresh 폐기
         rt.setRevokedAt(Instant.now());
         refreshTokenRepository.save(rt);
 

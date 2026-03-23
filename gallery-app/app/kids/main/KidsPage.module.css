@@ -168,7 +168,7 @@
     }
 }
 
-/* 색상 모달 */
+/* 색상 선택 모달 */
 .colorModalOverlay {
     position: fixed;
     inset: 0;
@@ -308,7 +308,7 @@
     cursor: not-allowed;
 }
 
-/* Next Button Absolute Positioning */
+/* 다음 버튼 절대 위치 배치 */
 .nextBtn--ab {
     position: absolute;
     bottom: 20px;
@@ -318,7 +318,7 @@
     z-index: 20;
 }
 
-/* Dropdown */
+/* 드롭다운 */
 .dropdownContainer {
     position: relative;
     display: inline-block;
@@ -386,7 +386,7 @@
     background: #f0f0f0;
 }
 
-/* Gallery Input */
+/* 갤러리 입력창 */
 .galleryInput {
     width: 100%;
     padding: 14px;
@@ -404,7 +404,7 @@
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Gallery Button */
+/* 갤러리 버튼 */
 .galleryBtn {
     background: #000;
     color: #fff;
@@ -417,7 +417,7 @@
     transform: scale(1.05);
 }
 
-/* ===== CoScientist Agent Log Panel ===== */
+/* ===== CoScientist 에이전트 로그 패널 ===== */
 .agentLogPanel {
     margin-top: 16px;
     max-width: 500px;

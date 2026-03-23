@@ -4,7 +4,7 @@ export const ko = {
         proSubtitle: "정밀 · 검증 · 고급 설정",
         kidsMode: "키즈 모드",
         kidsSubtitle: "쉽고 재미있는 브릭 생성",
-        // gallery 전용
+        // 갤러리 전용
         title: "Gallery",
         subtitle: "AI로 만든 멋진 브릭 작품들을 구경하세요.",
         sortLatest: "최신순",

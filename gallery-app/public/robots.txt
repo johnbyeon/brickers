@@ -1,5 +1,5 @@
 # Brickers - robots.txt
-# Allow major search engines, block everything else
+# 주요 검색 엔진은 허용하고, 그 외는 차단
 
 User-agent: Googlebot
 Allow: /

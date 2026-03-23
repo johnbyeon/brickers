@@ -20,7 +20,7 @@ export default function GoogleAnalytics() {
     const { user } = useAuth();
 
     useEffect(() => {
-        // Component Initialized
+        // 컴포넌트 초기화
     }, []);
 
     // 페이지 뷰 추적
@@ -32,7 +32,7 @@ export default function GoogleAnalytics() {
     useEffect(() => {
         if (user?.id) {
             gtag.setUserId(user.id);
-            // 닉네임, 유저ID도 사용자 속성으로 함께 전송 (GA4 Custom Dimension)
+            // 닉네임과 유저 ID도 사용자 속성으로 함께 전송(GA4 사용자 정의 차원)
             gtag.setUserProperties({
                 userId: user.id,
                 nickname: user.nickname || "Unknown"

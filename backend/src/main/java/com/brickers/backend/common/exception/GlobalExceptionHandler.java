@@ -129,7 +129,7 @@ public class GlobalExceptionHandler {
         public ResponseEntity<ApiError> handleIllegalState(
                         IllegalStateException e,
                         HttpServletRequest req) {
-                // retry not allowed 같은 "상태 전이 불가"는 409가 맞음
+                // retry not allowed 같은 "상태 전이 불가"는 409가 적절함
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                                 .body(ApiError.of(HttpStatus.CONFLICT, "CONFLICT", e.getMessage(),
                                                 req.getRequestURI()));

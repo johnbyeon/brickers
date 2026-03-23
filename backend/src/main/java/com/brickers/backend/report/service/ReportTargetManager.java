@@ -21,10 +21,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * 🎯 ReportTargetManager
- * 
- * 다양한 도메인의 신고 대상(유저, 게시글, 작업 등)에 대한
- * 존재 여부 확인 및 소프트 삭제 처리를 통합 관리합니다.
+ * 다양한 도메인의 신고 대상(유저, 게시글, 작업 등)에 대해
+ * 존재 여부 확인과 소프트 삭제 처리를 통합 관리합니다.
  */
 @Slf4j
 @Component

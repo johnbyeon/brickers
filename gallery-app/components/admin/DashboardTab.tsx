@@ -33,7 +33,7 @@ export default function DashboardTab({ aiState, activeTab }: DashboardTabProps) 
                 </div>
             </div>
 
-            {/* Admin Intel-Query UI */}
+            {/* 관리자 인텔리전스 질의 UI */}
             <div className="bg-[#f8f9fa] border-2 border-[#eee] p-10 rounded-[40px] mt-6 mb-12">
                 <h1 className="text-2xl font-black mb-3">Admin Intel-Query</h1>
                 <p className="font-bold text-gray-800">지표에 대해 궁금한 점을 물어보세요. AI가 실시간 데이터를 분석하여 보고서를 작성합니다.</p>

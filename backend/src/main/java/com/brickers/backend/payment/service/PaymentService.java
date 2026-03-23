@@ -24,9 +24,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * 💳 PaymentService
- * 
- * 결제 주문 관리 및 외부 결제 연동 흐름을 제어합니다.
+ * 결제 주문 관리와 외부 결제 연동 흐름을 담당합니다.
  */
 @Slf4j
 @Service
@@ -100,9 +98,9 @@ public class PaymentService {
         }
 
         if (order.getStatus() == PaymentStatus.COMPLETED) {
-            order.markRefundRequested("User refund requested");
+            order.markRefundRequested("사용자 환불 요청");
         } else {
-            order.markCanceled("User cancel requested");
+            order.markCanceled("사용자 취소 요청");
         }
         orderRepository.save(order);
     }

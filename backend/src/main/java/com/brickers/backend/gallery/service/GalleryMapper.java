@@ -13,10 +13,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * 🗺️ GalleryMapper
- * 
- * GalleryPostEntity를 GalleryResponse DTO로 변환하는 로직을 전담합니다.
- * 북마크 상태 및 사용자의 리액션 정보 조회를 포함합니다.
+ * GalleryPostEntity를 GalleryResponse DTO로 변환하는 로직을 담당합니다.
+ * 북마크 상태와 사용자의 리액션 정보 조회도 함께 처리합니다.
  */
 @Component
 @RequiredArgsConstructor
@@ -82,7 +80,7 @@ public class GalleryMapper {
     }
 
     /**
-     * Entity를 Response DTO로 변환합니다.
+     * 엔티티를 응답 DTO로 변환합니다.
      */
     public GalleryResponse toResponse(GalleryPostEntity post, String userId) {
         Boolean bookmarked = null;

@@ -35,7 +35,7 @@ implementation 'me.paulschwarz:spring-dotenv:4.0.0'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    // AWS S3 & SQS
+    // AWS S3 및 SQS
     implementation platform('software.amazon.awssdk:bom:2.29.0')
     implementation "software.amazon.awssdk:s3"
     implementation "software.amazon.awssdk:sqs"
@@ -56,7 +56,7 @@ implementation 'me.paulschwarz:spring-dotenv:4.0.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    // Google Analytics 4 (GA4) Data API
+    // Google Analytics 4(GA4) 데이터 API
     implementation 'com.google.analytics:google-analytics-data:0.56.0'
 }
 

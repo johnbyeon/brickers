@@ -73,7 +73,7 @@ export default function GalleryClient({ initialItems, initialHasMore, initialTot
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             } else if (targetCategory === 'bookmarks') {
-                // Fallback for bookmarks if API fails
+                // 북마크 API가 실패하면 예비 로직으로 대체
                 const bookmarkedOnly = initialItems.filter(i => i.bookmarked);
                 setItems(bookmarkedOnly);
                 setTotalPages(1);
@@ -166,7 +166,7 @@ export default function GalleryClient({ initialItems, initialHasMore, initialTot
             if (res.ok) {
                 const data = await res.json();
 
-                // If we are in the 'bookmarks' category and unbookmarking, remove from list
+                // 현재 'bookmarks' 카테고리에서 북마크를 해제하면 목록에서 제거
                 if (category === 'bookmarks' && !data.bookmarked) {
                     setItems((prev: GalleryItem[]) => prev.filter((item: GalleryItem) => item.id !== id));
                     setTotalElements((prev: number) => prev - 1);

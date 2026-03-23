@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * SQS Consumer Service
+ * SQS 컨슈머 서비스
  * - RESULT Queue에서 AI Server 처리 결과 수신
  * - GenerateJobEntity 업데이트
  */
@@ -93,7 +93,7 @@ public class SqsConsumerService {
             // JSON 파싱
             SqsMessage sqsMessage = objectMapper.readValue(message.body(), SqsMessage.class);
 
-            // RESULT 타입 확인 (안전장치)
+            // RESULT 타입 확인(안전장치)
             if (sqsMessage.getType() != SqsMessage.MessageType.RESULT) {
                 log.warn("⚠️ [SQS Consumer] RESULT Queue에 잘못된 메시지 | messageId={} | type={}",
                         messageId, sqsMessage.getType());
@@ -104,7 +104,7 @@ public class SqsConsumerService {
             log.info("📌 [SQS Consumer] RESULT 메시지 처리 시작 | jobId={} | success={}",
                     sqsMessage.getJobId(), sqsMessage.getSuccess());
 
-            // 비즈니스 로직 위임 (Job 업데이트)
+            // 비즈니스 로직 위임(Job 업데이트)
             sqsResultHandler.handleResult(sqsMessage);
 
             // 처리 완료 - 메시지 삭제

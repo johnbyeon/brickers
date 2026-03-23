@@ -34,7 +34,7 @@ public class AdminCommentService {
             comment.setUpdatedAt(LocalDateTime.now());
             commentRepository.save(comment);
 
-            // Update post comment count
+            // 게시글 댓글 수 갱신
             galleryPostRepository.findById(comment.getPostId()).ifPresent(post -> {
                 post.setCommentCount(Math.max(0, post.getCommentCount() - 1));
                 galleryPostRepository.save(post);
